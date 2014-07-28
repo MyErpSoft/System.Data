@@ -1,8 +1,0 @@
-C:\Documents\digiwin.visualstudio.com\System.Erp\bin\System.Erp.DataEntities.XML
-C:\Documents\digiwin.visualstudio.com\System.Erp\bin\System.Erp.DataEntities.dll
-C:\Documents\digiwin.visualstudio.com\System.Erp\bin\System.Erp.DataEntities.pdb
-C:\Documents\digiwin.visualstudio.com\System.Erp\System.Erp.Base\System.Erp.DataEntities\obj\Debug\System.Erp.DataEntities.csprojResolveAssemblyReference.cache
-C:\Documents\digiwin.visualstudio.com\System.Erp\System.Erp.Base\System.Erp.DataEntities\obj\Debug\System.Erp.DataEntities.Properties.Resources.resources
-C:\Documents\digiwin.visualstudio.com\System.Erp\System.Erp.Base\System.Erp.DataEntities\obj\Debug\System.Erp.DataEntities.csproj.GenerateResource.Cache
-C:\Documents\digiwin.visualstudio.com\System.Erp\System.Erp.Base\System.Erp.DataEntities\obj\Debug\System.Erp.DataEntities.dll
-C:\Documents\digiwin.visualstudio.com\System.Erp\System.Erp.Base\System.Erp.DataEntities\obj\Debug\System.Erp.DataEntities.pdb
