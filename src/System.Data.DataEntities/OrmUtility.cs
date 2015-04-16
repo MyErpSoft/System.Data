@@ -94,6 +94,10 @@ namespace System.Data.DataEntities {
             throw new ArgumentException(message);
         }
 
+        internal static void ThrowArgumentException(string message,string paramName) {
+            throw new ArgumentException(message,paramName);
+        }
+
         internal static void ThrowInvalidOperationException(string message) {
             throw new InvalidOperationException(message);
         }

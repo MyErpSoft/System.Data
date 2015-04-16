@@ -11,17 +11,13 @@ namespace System.Data.DataEntities.Dynamic {
             if (null == dt) {
                 OrmUtility.ThrowArgumentNullException("dt");
             }
-            _dt = dt;
-            if (dt.Fields.Count < 30) {
-                this._storage = new DynamicEntityArrayStorage(dt);
-            }
-            else {
-                this._storage = new DynamicEntityDictStorage();
-            }
+
+            this._storage = dt.InitializeEntity(this);
+            this._dt = dt;
         }
 
         private readonly DynamicEntityType _dt;
-        internal IDynamicEntityStorage _storage;
+        internal readonly IDynamicEntityStorage _storage;
 
         /// <summary>
         /// Return type of DynamicEntity associated

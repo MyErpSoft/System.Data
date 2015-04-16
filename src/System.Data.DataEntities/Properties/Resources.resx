@@ -117,34 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ElementExistExternalRelation" xml:space="preserve">
-    <value>External relations attributes can not appear: {0}</value>
+  <data name="ErrorName" xml:space="preserve">
+    <value>提供的名称 {0} 不正确，不能为空，且只能是字母、数字（不能是第一个字符）或下划线，最多256个字符。</value>
+    <comment>OrmUtility.VerifyName</comment>
   </data>
-  <data name="ElementExistParent" xml:space="preserve">
-    <value>Not appear keyword: Parent </value>
+  <data name="ErrorNamespace" xml:space="preserve">
+    <value>提供的命名空间 {0} 不正确，只能是字母、数字（不能是第一个字符）或下划线，最多256个字符组成的单词，使用点隔离多个单词。</value>
+    <comment>OrmUtility.VerifyName</comment>
   </data>
-  <data name="ElementExistSimpleProperty" xml:space="preserve">
-    <value>Not appear simple property: {0}</value>
-  </data>
-  <data name="ElementGetTargetError" xml:space="preserve">
-    <value>Entity {0} {1} failed treatment on the expression, because {2}</value>
-  </data>
-  <data name="ElementIsRootNotUseParent" xml:space="preserve">
-    <value>Object {0} is already a root entity can't access the Parent property.</value>
-  </data>
-  <data name="GetTargetExistSimpleProperty" xml:space="preserve">
-    <value>Property {0} is already a simple property, but then there are still next property retrieval.</value>
-  </data>
-  <data name="NameIsEmpty" xml:space="preserve">
-    <value>Name can not be null or empty.</value>
-  </data>
-  <data name="NotFindElement" xml:space="preserve">
-    <value>Name is {0} root entity does not exist.</value>
-  </data>
-  <data name="NotFindElementBecause" xml:space="preserve">
-    <value>Did not find the name of the entity {0} because {1}.</value>
-  </data>
-  <data name="NotFindProperty" xml:space="preserve">
-    <value>Entity {0} {1} does not name the property exist.</value>
+  <data name="ObjectIsFrozen" xml:space="preserve">
+    <value>对象 {0} 已经冻结，不允许再修改内容。</value>
+    <comment>DynamicEntityType.CheckIsFrozen</comment>
   </data>
 </root>

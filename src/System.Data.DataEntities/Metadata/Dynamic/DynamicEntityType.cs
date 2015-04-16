@@ -8,7 +8,7 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
     /// <summary>
     /// Dynamic entity type.
     /// </summary>
-    public sealed class DynamicEntityType : DynamicMemberMetadata {
+    public class DynamicEntityType : DynamicMemberMetadata {
 
         /// <summary>
         /// Dynamic entity types, allows creating a type at run time and used to carry the physical structure of the data.
@@ -20,11 +20,13 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
             string nameSpace = null) {
             #region Parameter checking
             if (!OrmUtility.VerifyName(name)) {
-                throw new ArgumentException("name");
+                OrmUtility.ThrowArgumentException(string.Format(CultureInfo.CurrentCulture,
+                    Properties.Resources.ErrorName, name), "name");
             }
             if ((!string.IsNullOrEmpty(nameSpace)) &&
                 !OrmUtility.VerifyNameWithNamespace(nameSpace)) {
-                throw new ArgumentException("nameSpace");
+                OrmUtility.ThrowArgumentException(string.Format(CultureInfo.CurrentCulture,
+                    Properties.Resources.ErrorNamespace, nameSpace), "nameSpace");
             }
             #endregion
 
@@ -64,6 +66,25 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
         /// </summary>
         public DynamicEntityFieldCollection Fields { get { return this._fields; } }
 
+        #region CreateInstance
+        /// <summary>
+        /// 允许派生类自定义实体数据的存储形式或初始化对象。
+        /// </summary>
+        /// <param name="entity">要初始化的对象</param>
+        /// <returns>一个存储对象</returns>
+        internal protected virtual IDynamicEntityStorage InitializeEntity(DynamicEntity entity) {
+            IDynamicEntityStorage storage;
+            //没有限制冻结的结构才能创建实例。
+            if (this._fields.Count < 30) {
+                storage = new DynamicEntityArrayStorage(this);
+            }
+            else {
+                storage = new DynamicEntityDictStorage();
+            }
+
+            return storage;
+        }
+        
         /// <summary>
         /// Create an instance of this EntityType
         /// </summary>
@@ -71,6 +92,7 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
         public object CreateInstance() {
             return new DynamicEntity(this);
         }
+        #endregion
 
         #region Properties Field
 
@@ -84,10 +106,17 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
         public DynamicEntityField RegisterField(
             string name, Type propertyType) {
 
+            #region Parameter checking
+            this.CheckIsFrozen();
+
             if (!OrmUtility.VerifyName(name)) {
-                throw new ArgumentException(string.Format("Register a field name {0} is not correct, can only be a combination of letters, numbers, and underscores.", name));
+                OrmUtility.ThrowArgumentException(string.Format(CultureInfo.CurrentCulture,
+                                    Properties.Resources.ErrorName, name), "name");
             }
-            //TODO:Check parameters
+            if (propertyType == null) {
+                OrmUtility.ThrowArgumentNullException("propertyType");
+            }
+            #endregion
 
             DynamicEntityField property;
 
@@ -109,6 +138,38 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
             return property;
         }
 
+        #endregion
+
+        #region Freeze
+        private bool _isFrozen;
+        /// <summary>
+        /// 冻结当前类型，使其不能再扩展。
+        /// </summary>
+        /// <remarks>
+        /// <para>当支持派生功能时，如果没有冻结机制，会造成B已经派生A，但A又注册了新的属性，导致与B新增的属性冲突；</para>
+        /// <para>值类型的DynamicEntityType包装，例如int32对应的包装，是不支持任何改动的，所以必须冻结；</para>
+        /// </remarks>
+        public void Freeze() {
+            if (!_isFrozen) {
+                _isFrozen = true;
+            }
+        }
+
+        /// <summary>
+        /// 返回当前类型是否已经冻结，冻结的类型不能再扩展。
+        /// </summary>
+        public bool IsFrozen {
+            get { return this._isFrozen; }
+        }
+    
+        private void CheckIsFrozen() {
+            if (_isFrozen) {
+                OrmUtility.ThrowInvalidOperationException(string.Format(
+                    CultureInfo.CurrentCulture, 
+                    Properties.Resources.ObjectIsFrozen,
+                    this.Name));
+            }
+        }
         #endregion
     }
 }
