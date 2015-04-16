@@ -1,16 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 
-namespace System.Data.DataEntities.Metadata
-{
+namespace System.Data.DataEntities.Metadata {
+
     /// <summary>
     /// Metadata for a read-only collection
     /// </summary>
     /// <typeparam name="T">Element data type</typeparam>
     [DebuggerTypeProxy(typeof(MetadataReadOnlyCollection_DebugView<>)), DebuggerDisplay("Count = {Count}")]
-    public class MetadataReadOnlyCollection<T> : IEnumerable<T>,ICollection<T> where T : IMemberMetadata
-    {
+    public abstract class MetadataReadOnlyCollection<T> : IEnumerable<T>, ICollection<T> {
         private T[] _items;
         private Dictionary<string, T> _dict;
 
@@ -18,32 +18,34 @@ namespace System.Data.DataEntities.Metadata
         /// Construct the metadata for a read-only collection
         /// </summary>
         /// <param name="items">To initialize an array</param>
-        protected MetadataReadOnlyCollection(IEnumerable<T> items)
-        {
-            if (items != null)
-            {
+        protected MetadataReadOnlyCollection(IEnumerable<T> items) {
+            if (items != null) {
                 AddRangePrivate(items);
             }
-            else
-            {
+            else {
                 _items = new T[0];
-                _dict = new Dictionary<string, T>(StringComparer.Ordinal);
+                _dict = new Dictionary<string, T>(StringComparer.OrdinalIgnoreCase);
             }
         }
 
         /// <summary>
+        /// When implemented in a derived class, extracts the name from the specified element.
+        /// </summary>
+        /// <param name="item">the specified element</param>
+        /// <returns>the name from the specified element</returns>
+        protected abstract string GetName(T item);
+
+        /// <summary>
         /// A derived class can directly access the internal data
         /// </summary>
-        protected T[] Items
-        {
+        protected T[] Items {
             get { return _items; }
         }
 
         /// <summary>
         /// Derived classes can have direct access to the internal dictionary.
         /// </summary>
-        protected Dictionary<string, T> Dictionary
-        {
+        protected Dictionary<string, T> Dictionary {
             get { return _dict; }
         }
 
@@ -52,29 +54,26 @@ namespace System.Data.DataEntities.Metadata
         /// </summary>
         /// <param name="item">The value to locate in the sequence.</param>
         /// <returns>true if the source sequence contains an element that has the specified value; otherwise, false.</returns>
-        public bool Contains(T item)
-        {
-            if (item == null)
-            {
+        public bool Contains(T item) {
+            if (item == null) {
                 return false;
             }
 
             T findItem;
-            if (this.TryGetValue(item.Name,out findItem) &&
-                (findItem.MetadataToken == item.MetadataToken))
-            {
+            if (this.TryGetValue(GetName(item), out findItem) &&
+                object.Equals(findItem, item)) {
                 return true;
             }
 
             return Array.IndexOf<T>(_items, item) >= 0;
         }
+
         /// <summary>
         /// Determines whether a sequence contains a specified name by using the default equality comparer.
         /// </summary>
         /// <param name="name">The name to locate in the sequence.</param>
         /// <returns>true if the source sequence contains name that has the specified value; otherwise, false.</returns>
-        public bool Contains(string name)
-        {
+        public bool Contains(string name) {
             return _dict.ContainsKey(name);
         }
 
@@ -83,8 +82,7 @@ namespace System.Data.DataEntities.Metadata
         /// </summary>
         /// <param name="item">The object to locate in the IMetadataReadOnlyCollection</param>
         /// <returns>The index of item if found in the list; otherwise, -1.</returns>
-        public int IndexOf(T item)
-        {
+        public int IndexOf(T item) {
             return Array.IndexOf<T>(_items, item);
         }
 
@@ -93,8 +91,7 @@ namespace System.Data.DataEntities.Metadata
         /// </summary>
         /// <param name="array">The one-dimensional Array that is the destination of the elements copied from IMetadataReadOnlyCollection. The Array must have zero-based indexing.</param>
         /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
-        public void CopyTo(T[] array, int arrayIndex)
-        {
+        public void CopyTo(T[] array, int arrayIndex) {
             _items.CopyTo(array, arrayIndex);
         }
 
@@ -102,12 +99,10 @@ namespace System.Data.DataEntities.Metadata
         /// Gets the number of elements contained in the IMetadataReadOnlyCollection.
         /// </summary>
         public int Count {
-            get
-            {
+            get {
                 return _items.Length;
             }
         }
-
 
         /// <summary>
         /// Gets the element at the specified index.
@@ -135,37 +130,29 @@ namespace System.Data.DataEntities.Metadata
         /// <param name="name">To get the name of the value.</param>
         /// <param name="value">When this method returns, if the specified key is found, returns the value associated with the key; otherwise, it returns the type of the value parameter's default value. The parameter is not initialized is passed.</param>
         /// <returns>If the list element contains an element with the specified name, or true; otherwise, false.</returns>
-        public bool TryGetValue(string name, out T value)
-        {
+        public bool TryGetValue(string name, out T value) {
             return _dict.TryGetValue(name, out value);
         }
 
-        private void AddRangePrivate(IEnumerable<T> items)
-        {
-            if (null == items)
-            {
+        private void AddRangePrivate(IEnumerable<T> items) {
+            if (null == items) {
                 throw new ArgumentNullException("items");
             }
 
             int count = 0;
-            foreach (var item in items)
-            {
-                if (null == item)
-                {
+            foreach (var item in items) {
+                if (null == item) {
                     throw new ArgumentNullException("items[" + count.ToString() + "]");
                 }
 
-                if (string.IsNullOrEmpty(item.Name))
-                {
-                    throw new ArgumentNullException(
-                        "Add an element name cannot be empty.");
+                if (string.IsNullOrEmpty(GetName(item))) {
+                    throw new ArgumentNullException("Add an element name cannot be empty.");
                 }
 
                 T findItem;
-                if ((_dict != null) && (_dict.TryGetValue(item.Name, out findItem)))
-                {
+                if ((_dict != null) && (_dict.TryGetValue(GetName(item), out findItem))) {
                     throw new ArgumentNullException(
-                        string.Format(System.Globalization.CultureInfo.CurrentCulture, "The element name {0} already exists in the collection.", item.Name));
+                        string.Format(CultureInfo.CurrentCulture, "The element name {0} already exists in the collection.", GetName(item)));
                 }
 
                 count++;
@@ -173,22 +160,18 @@ namespace System.Data.DataEntities.Metadata
 
             T[] newItems;
             int startIndex;
-            if (_items == null)
-            {
+            if (_items == null) {
                 newItems = new T[count];
                 startIndex = 0;
-                _dict = new Dictionary<string, T>(count, StringComparer.Ordinal);
             }
-            else
-            {
+            else {
                 startIndex = _items.Length;
                 newItems = new T[count + startIndex];
                 _items.CopyTo(newItems, 0);
             }
 
-            foreach (var item in items)
-            {
-                _dict.Add(item.Name, item);
+            foreach (var item in items) {
+                _dict.Add(GetName(item), item);
                 newItems[startIndex] = item;
                 startIndex++;
             }
@@ -200,36 +183,31 @@ namespace System.Data.DataEntities.Metadata
         /// Allows a derived class to add data to the collection.
         /// </summary>
         /// <param name="items">To add a collection of elements</param>
-        internal virtual void AddRange(IEnumerable<T> items)
-        {
+        internal virtual void AddRange(IEnumerable<T> items) {
             AddRangePrivate(items);
         }
-        
+
         /// <summary>
         /// Allows a derived class to add data.
         /// </summary>
         /// <param name="item">The element to be added.</param>
-        internal virtual void Add(T item)
-        {
-            if (null == item)
-            {
+        internal virtual void Add(T item) {
+            if (null == item) {
                 throw new ArgumentNullException("item");
             }
 
-            if (string.IsNullOrEmpty(item.Name))
-            {
+            if (string.IsNullOrEmpty(GetName(item))) {
                 throw new ArgumentNullException(
                     "Add an element name cannot be empty.");
             }
 
             T findItem;
-            if (this.TryGetValue(item.Name, out findItem))
-            {
+            if (this.TryGetValue(GetName(item), out findItem)) {
                 throw new ArgumentNullException(
-                    string.Format(System.Globalization.CultureInfo.CurrentCulture, "The element name {0} already exists in the collection.", item.Name));
+                    string.Format(System.Globalization.CultureInfo.CurrentCulture, "The element name {0} already exists in the collection.", GetName(item)));
             }
 
-            _dict.Add(item.Name, item);
+            _dict.Add(GetName(item), item);
             T[] newItems = new T[1 + _items.Length];
             _items.CopyTo(newItems, 0);
             newItems[_items.Length] = item;
@@ -239,109 +217,89 @@ namespace System.Data.DataEntities.Metadata
 
         #region ICollection<T>
         //Allows only adding data, so the interface method is not supported.
-        void ICollection<T>.Add(T item)
-        {
+        void ICollection<T>.Add(T item) {
             throw new NotSupportedException();
         }
 
-        void ICollection<T>.Clear()
-        {
+        void ICollection<T>.Clear() {
             throw new NotSupportedException();
         }
 
-        bool ICollection<T>.Remove(T item)
-        {
+        bool ICollection<T>.Remove(T item) {
             throw new NotSupportedException();
         }
 
-        bool ICollection<T>.IsReadOnly
-        {
+        bool ICollection<T>.IsReadOnly {
             get { return true; }
         }
 
-        public IEnumerator<T> GetEnumerator()
-        {
+        public IEnumerator<T> GetEnumerator() {
             return new ArrayEnumerator(_items);
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
+        IEnumerator IEnumerable.GetEnumerator() {
             return new ArrayEnumerator(_items);
         }
 
         #endregion
 
         #region The enumerator
-        private struct ArrayEnumerator : IEnumerator<T>
-        {
+        private struct ArrayEnumerator : IEnumerator<T> {
             private T[] _array;
             private int _endIndex;
             private int _index;
             private T _current;
 
-            internal ArrayEnumerator(T[] array)
-            {
+            internal ArrayEnumerator(T[] array) {
                 this._array = array;
                 this._index = -1;
                 this._endIndex = array.Length;
                 this._current = default(T);
             }
 
-            public bool MoveNext()
-            {
+            public bool MoveNext() {
                 this._index++;
-                if (this._index < this._endIndex)
-                {
+                if (this._index < this._endIndex) {
                     _current = _array[_index];
                     return true;
                 }
                 return false;
             }
-              
-            public void Reset()
-            {
+
+            public void Reset() {
                 this._index = -1;
             }
 
-            public T Current
-            {
-                get
-                {
+            public T Current {
+                get {
                     return _current;
                 }
             }
 
-            object IEnumerator.Current
-            {
+            object IEnumerator.Current {
                 get { return _current; }
             }
 
-            public void Dispose()
-            {
+            public void Dispose() {
                 //
             }
         }
         #endregion
     }
 
-    internal sealed class MetadataReadOnlyCollection_DebugView<T> where T : IMemberMetadata
-    {
+    internal sealed class MetadataReadOnlyCollection_DebugView<T> {
         private MetadataReadOnlyCollection<T> collection;
 
-        public MetadataReadOnlyCollection_DebugView(MetadataReadOnlyCollection<T> collection)
-        {
-            if (null == collection)
-            {
+        public MetadataReadOnlyCollection_DebugView(MetadataReadOnlyCollection<T> collection) {
+            if (null == collection) {
                 throw new ArgumentNullException("collection");
             }
             this.collection = collection;
         }
 
         [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-        public T[] Items
-        {
-            get
-            {
+        public T[] Items {
+            get {
                 T[] array = new T[this.collection.Count];
                 this.collection.CopyTo(array, 0);
                 return array;

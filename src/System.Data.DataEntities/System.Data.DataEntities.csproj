@@ -1,136 +1,63 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{E08635B9-DAD0-43EA-9970-702EEB7B0190}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>System.Data.DataEntities</RootNamespace>
     <AssemblyName>System.Data.DataEntities</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.3</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\bin\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <DocumentationFile>..\..\..\bin\System.Data.DataEntities.XML</DocumentationFile>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>none</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\bin\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <DocumentationFile>..\..\bin\System.Data.DataEntities.xml</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DcxmlSerialization\Actions.cs" />
-    <Compile Include="DcxmlSerialization\DefaultDcxmlBinder.cs" />
     <Compile Include="Dynamic\DynamicEntity.cs" />
-    <Compile Include="Dynamic\DynamicEntityView.cs" />
-    <Compile Include="Dynamic\DynamicEntityViewCollection.cs" />
-    <Compile Include="EntityCollection.cs" />
-    <Compile Include="IObjectWithParent.cs" />
-    <Compile Include="Metadata\Dynamic\DynamicPropertyActionPolicy.cs" />
-    <Compile Include="Metadata\EntityElementAgent.cs" />
-    <Compile Include="Metadata\EntityPathNavigator.cs" />
-    <Compile Include="Metadata\EntityPropertyAgent.cs" />
-    <Compile Include="Metadata\PropertyRelationType.cs" />
-    <Compile Include="Metadata\ElementAgent.cs" />
-    <Compile Include="Metadata\PathNavigator.cs" />
-    <Compile Include="Metadata\PropertyAgent.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="System.ComponentModel\INotifyPropertyUnchanged.cs" />
-    <Compile Include="System.ComponentModel\PropertyChangingCanCancelEventArgs.cs" />
-    <Compile Include="System.ComponentModel\PropertyErrorChangedEventArgs.cs" />
-    <Compile Include="System.ComponentModel\PropertyUnchangedEventArgs.cs" />
-    <Compile Include="ViewCollection.cs" />
-    <Compile Include="Entity.cs" />
-    <Compile Include="EntityTypeBinder.cs" />
-    <Compile Include="Metadata\Clr\ClrHelper.cs" />
-    <Compile Include="Metadata\Clr\CollectionEntityProperty.cs" />
-    <Compile Include="Metadata\Clr\EntityProperty.cs" />
-    <Compile Include="Metadata\Clr\EntityPropertyCollection.cs" />
-    <Compile Include="Metadata\Clr\EntityType.cs" />
-    <Compile Include="Metadata\Clr\EntityTypeParser.cs" />
-    <Compile Include="Metadata\Clr\EntityTypeParser.DataObjectAttribute.cs" />
-    <Compile Include="Metadata\Clr\EntityTypeParser.XmlTypeAttribute.cs" />
-    <Compile Include="Metadata\Clr\MetadataBase.cs" />
-    <Compile Include="Metadata\Clr\SimpleEntityProperty.cs" />
-    <Compile Include="Metadata\Dynamic\DynamicCollectionEntityProperty.cs" />
-    <Compile Include="Metadata\Dynamic\DynamicEntityPropertyChangedEventArgs.cs" />
-    <Compile Include="Metadata\Dynamic\DynamicEntityTypeFlag.cs" />
-    <Compile Include="Metadata\Dynamic\DynamicSimpleEntityProperty.cs" />
-    <Compile Include="Metadata\Dynamic\DynamicEntityProperty.cs" />
-    <Compile Include="Metadata\Dynamic\DynamicEntityPropertyCollection.cs" />
+    <Compile Include="Dynamic\DynamicEntityArrayStorage.cs" />
+    <Compile Include="Dynamic\DynamicEntityDictStorage.cs" />
+    <Compile Include="Dynamic\IDynamicEntityStorage.cs" />
+    <Compile Include="Metadata\Dynamic\DynamicEntityField.cs" />
+    <Compile Include="Metadata\Dynamic\DynamicEntityFieldCollection.cs" />
+    <Compile Include="Metadata\Dynamic\DynamicEntityNullableField.cs" />
+    <Compile Include="Metadata\Dynamic\DynamicEntityObjectField.cs" />
+    <Compile Include="Metadata\Dynamic\DynamicEntityStructField.cs" />
     <Compile Include="Metadata\Dynamic\DynamicEntityType.cs" />
     <Compile Include="Metadata\Dynamic\DynamicMemberMetadata.cs" />
-    <Compile Include="Metadata\EntityTypeCollection.cs" />
-    <Compile Include="Metadata\ICollectionEntityProperty.cs" />
-    <Compile Include="Metadata\IComplexEntityProperty.cs" />
-    <Compile Include="Metadata\IEntityProperty.cs" />
-    <Compile Include="Metadata\IEntityPropertyCollection.cs" />
-    <Compile Include="Metadata\IEntityType.cs" />
-    <Compile Include="Metadata\IMemberMetadata.cs" />
-    <Compile Include="Metadata\IMetadataReadOnlyCollection.cs" />
-    <Compile Include="Metadata\IEntityState.cs" />
-    <Compile Include="Metadata\ISimpleEntityProperty.cs" />
     <Compile Include="Metadata\MetadataReadOnlyCollection.cs" />
     <Compile Include="OrmUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DcxmlSerialization\DcxmlBinder.cs" />
-    <Compile Include="DcxmlSerialization\DcxmlReader.cs" />
-    <Compile Include="DcxmlSerialization\DcxmlSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Metadata\Clr\EntityTypeParser.Generic.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Metadata\Clr\EntityTypeParser.PropertyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.zh-chs.resx" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
