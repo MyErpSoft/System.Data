@@ -50,6 +50,15 @@
     <Compile Include="Metadata\Dynamic\DynamicEntityStructField.cs" />
     <Compile Include="Metadata\Dynamic\DynamicEntityType.cs" />
     <Compile Include="Metadata\Dynamic\DynamicMemberMetadata.cs" />
+    <Compile Include="Metadata\IEntityField.cs" />
+    <Compile Include="Metadata\IEntityFieldCollection.cs" />
+    <Compile Include="Metadata\IEntityProperty.cs" />
+    <Compile Include="Metadata\IEntityPropertyCollection.cs" />
+    <Compile Include="Metadata\IEntityType.cs" />
+    <Compile Include="Metadata\IMemberMetadata.cs" />
+    <Compile Include="Metadata\IMetadataObject.cs" />
+    <Compile Include="Metadata\IMetadataReadOnlyCollection.cs" />
+    <Compile Include="Metadata\IValueAccessor.cs" />
     <Compile Include="Metadata\MetadataReadOnlyCollection.cs" />
     <Compile Include="OrmUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
