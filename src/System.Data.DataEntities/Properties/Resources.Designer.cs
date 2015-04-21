@@ -79,6 +79,15 @@ namespace System.Data.DataEntities.Properties {
         }
         
         /// <summary>
+        ///   查找类似 类型 {0} 未能找到成员 {1}，或成员不符合需要的类型。 的本地化字符串。
+        /// </summary>
+        internal static string KeyNotFoundException {
+            get {
+                return ResourceManager.GetString("KeyNotFoundException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 对象 {0} 已经冻结，不允许再修改内容。 的本地化字符串。
         /// </summary>
         internal static string ObjectIsFrozen {

@@ -13,6 +13,7 @@ namespace System.Data.DataEntities.Metadata {
     public abstract class MetadataReadOnlyCollection<T> : IEnumerable<T>, ICollection<T> {
         private T[] _items;
         private Dictionary<string, T> _dict;
+        private static readonly T[] _emptyArray = new T[0];
 
         /// <summary>
         /// Construct the metadata for a read-only collection
@@ -20,11 +21,11 @@ namespace System.Data.DataEntities.Metadata {
         /// <param name="items">To initialize an array</param>
         protected MetadataReadOnlyCollection(IEnumerable<T> items) {
             if (items != null) {
-                AddRangePrivate(items);
+                //在诸如EntityType.Properties这种应用中，属性是一开始就确定的，不会动态添加，字典也几乎不用，这个时候我们是延迟创建字典的。
+                AddRangePrivate(items, false);
             }
             else {
-                _items = new T[0];
-                _dict = new Dictionary<string, T>(StringComparer.OrdinalIgnoreCase);
+                _items = _emptyArray;
             }
         }
 
@@ -46,7 +47,28 @@ namespace System.Data.DataEntities.Metadata {
         /// Derived classes can have direct access to the internal dictionary.
         /// </summary>
         protected Dictionary<string, T> Dictionary {
-            get { return _dict; }
+            get {
+                if (_dict == null) {
+                    //EntityType这些实现，使用CLR的信息，他们在静态方法中创建并访问，所以是多线程的。
+                    Threading.Interlocked.CompareExchange<Dictionary<string, T>>(ref _dict, this.CreateDictionary(), null);
+                }
+
+                return _dict;
+            }
+        }
+
+        private Dictionary<string, T> CreateDictionary() {
+            var dict = new Dictionary<string, T>(StringComparer.OrdinalIgnoreCase);
+            if (_items != null) {
+                foreach (T item in _items) {
+                    string key = GetName(item);
+                    if (key != null) {
+                        dict.Add(key, item);
+                    }
+                }
+            }
+
+            return dict;
         }
 
         /// <summary>
@@ -74,7 +96,7 @@ namespace System.Data.DataEntities.Metadata {
         /// <param name="name">The name to locate in the sequence.</param>
         /// <returns>true if the source sequence contains name that has the specified value; otherwise, false.</returns>
         public bool Contains(string name) {
-            return _dict.ContainsKey(name);
+            return Dictionary.ContainsKey(name);
         }
 
         /// <summary>
@@ -93,6 +115,13 @@ namespace System.Data.DataEntities.Metadata {
         /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
         public void CopyTo(T[] array, int arrayIndex) {
             _items.CopyTo(array, arrayIndex);
+        }
+
+        public T[] ToArray() {
+            T[] newArray = new T[_items.Length];
+            _items.CopyTo(newArray,0);
+
+            return newArray;
         }
 
         /// <summary>
@@ -121,7 +150,7 @@ namespace System.Data.DataEntities.Metadata {
         /// <returns>An element with the specified name.</returns>
         /// <exception cref="System.Collections.Generic.KeyNotFoundException">Retrieves the property name was not found.</exception>
         public T this[string name] {
-            get { return _dict[name]; }
+            get { return Dictionary[name]; }
         }
 
         /// <summary>
@@ -131,28 +160,30 @@ namespace System.Data.DataEntities.Metadata {
         /// <param name="value">When this method returns, if the specified key is found, returns the value associated with the key; otherwise, it returns the type of the value parameter's default value. The parameter is not initialized is passed.</param>
         /// <returns>If the list element contains an element with the specified name, or true; otherwise, false.</returns>
         public bool TryGetValue(string name, out T value) {
-            return _dict.TryGetValue(name, out value);
+            return Dictionary.TryGetValue(name, out value);
         }
-
-        private void AddRangePrivate(IEnumerable<T> items) {
+        
+        private void AddRangePrivate(IEnumerable<T> items,bool buildDictionary) {
             if (null == items) {
                 throw new ArgumentNullException("items");
             }
 
             int count = 0;
+            string name;
             foreach (var item in items) {
                 if (null == item) {
                     throw new ArgumentNullException("items[" + count.ToString() + "]");
                 }
 
-                if (string.IsNullOrEmpty(GetName(item))) {
+                name = GetName(item);
+                if (string.IsNullOrEmpty(name)) {
                     throw new ArgumentNullException("Add an element name cannot be empty.");
                 }
 
                 T findItem;
-                if ((_dict != null) && (_dict.TryGetValue(GetName(item), out findItem))) {
+                if ((_dict != null) && (_dict.TryGetValue(name, out findItem))) {
                     throw new ArgumentNullException(
-                        string.Format(CultureInfo.CurrentCulture, "The element name {0} already exists in the collection.", GetName(item)));
+                        string.Format(CultureInfo.CurrentCulture, "The element name {0} already exists in the collection.", name));
                 }
 
                 count++;
@@ -170,8 +201,15 @@ namespace System.Data.DataEntities.Metadata {
                 _items.CopyTo(newItems, 0);
             }
 
+            if (buildDictionary && _dict == null) {
+                _dict = CreateDictionary();
+            }
+
             foreach (var item in items) {
-                _dict.Add(GetName(item), item);
+                if (_dict != null) {
+                    _dict.Add(GetName(item), item);
+                }
+                
                 newItems[startIndex] = item;
                 startIndex++;
             }
@@ -184,7 +222,7 @@ namespace System.Data.DataEntities.Metadata {
         /// </summary>
         /// <param name="items">To add a collection of elements</param>
         internal virtual void AddRange(IEnumerable<T> items) {
-            AddRangePrivate(items);
+            AddRangePrivate(items, true);
         }
 
         /// <summary>
@@ -196,18 +234,19 @@ namespace System.Data.DataEntities.Metadata {
                 throw new ArgumentNullException("item");
             }
 
-            if (string.IsNullOrEmpty(GetName(item))) {
+            var name = GetName(item);
+            if (string.IsNullOrEmpty(name)) {
                 throw new ArgumentNullException(
                     "Add an element name cannot be empty.");
             }
 
             T findItem;
-            if (this.TryGetValue(GetName(item), out findItem)) {
+            if (this.TryGetValue(name, out findItem)) {
                 throw new ArgumentNullException(
-                    string.Format(System.Globalization.CultureInfo.CurrentCulture, "The element name {0} already exists in the collection.", GetName(item)));
+                    string.Format(System.Globalization.CultureInfo.CurrentCulture, "The element name {0} already exists in the collection.", name));
             }
 
-            _dict.Add(GetName(item), item);
+            Dictionary.Add(name, item);
             T[] newItems = new T[1 + _items.Length];
             _items.CopyTo(newItems, 0);
             newItems[_items.Length] = item;
@@ -292,7 +331,7 @@ namespace System.Data.DataEntities.Metadata {
 
         public MetadataReadOnlyCollection_DebugView(MetadataReadOnlyCollection<T> collection) {
             if (null == collection) {
-                throw new ArgumentNullException("collection");
+                OrmUtility.ThrowArgumentNullException("collection");
             }
             this.collection = collection;
         }
@@ -300,9 +339,7 @@ namespace System.Data.DataEntities.Metadata {
         [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
         public T[] Items {
             get {
-                T[] array = new T[this.collection.Count];
-                this.collection.CopyTo(array, 0);
-                return array;
+                return this.collection.ToArray(); 
             }
         }
     }

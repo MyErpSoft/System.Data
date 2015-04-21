@@ -125,6 +125,9 @@
     <value>提供的命名空间 {0} 不正确，只能是字母、数字（不能是第一个字符）或下划线，最多256个字符组成的单词，使用点隔离多个单词。</value>
     <comment>OrmUtility.VerifyName</comment>
   </data>
+  <data name="KeyNotFoundException" xml:space="preserve">
+    <value>类型 {0} 未能找到成员 {1}，或成员不符合需要的类型。</value>
+  </data>
   <data name="ObjectIsFrozen" xml:space="preserve">
     <value>对象 {0} 已经冻结，不允许再修改内容。</value>
     <comment>DynamicEntityType.CheckIsFrozen</comment>

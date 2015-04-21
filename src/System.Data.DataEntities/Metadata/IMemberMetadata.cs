@@ -12,9 +12,5 @@ namespace System.Data.DataEntities.Metadata {
         /// </summary>
         string Name { get; }
 
-        /// <summary>
-        /// Return reflected type.
-        /// </summary>
-        IEntityType ReflectedType { get; }
     }
 }

@@ -5,7 +5,7 @@ namespace System.Data.DataEntities.Metadata {
     /// <summary>
     /// Describes a type of entity information.
     /// </summary>
-    public interface IEntityType : IMetadataObject {
+    public interface IEntityType : IMemberMetadata {
 
         /// <summary>
         /// Gets a value, this value indicates whether the entity type is abstract and must be overridden.
@@ -28,19 +28,31 @@ namespace System.Data.DataEntities.Metadata {
         string FullName { get; }
 
         /// <summary>
-        /// Return all properties for this IEntityType.
+        /// 返回指定名称的属性。
         /// </summary>
-        IEntityPropertyCollection Properties { get; }
+        /// <param name="name">要检索的属性名称</param>
+        /// <returns>如果找到此名称的属性将返回他，否则（找不到或类型不一致），将抛出异常。</returns>
+        IEntityProperty GetProperty(string name);
 
         /// <summary>
-        /// Return all fields for this IEntityType.
+        /// 返回指定名称的字段。
         /// </summary>
-        IEntityFieldCollection Fields { get; }
+        /// <param name="name">要检索的字段名称</param>
+        /// <returns>如果找到此名称的字段将返回他，否则（找不到或类型不一致），将抛出异常。</returns>
+        IEntityField GetField(string name);
+
+        /// <summary>
+        /// 尝试获取指定名称的成员
+        /// </summary>
+        /// <param name="name">要检索的成员名称</param>
+        /// <param name="member">如果找到将返回他，否则返回null</param>
+        /// <returns>如果找到将返回true，否则返回false.</returns>
+        bool TryGetMember(string name,out IMemberMetadata member);
 
         /// <summary>
         /// Return this IEntityType maping runtime type.(CLR Type).
         /// </summary>
-        Type RuntimeType { get; }
+        Type UnderlyingSystemType { get; }
 
         /// <summary>
         /// Create an instance of this IEntityType

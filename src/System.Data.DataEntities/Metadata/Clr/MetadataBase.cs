@@ -24,22 +24,6 @@ namespace System.Data.DataEntities.Metadata.Clr {
             get { return ClrMember.Name; }
         }
 
-        public int MetadataToken {
-            get { return ClrMember.MetadataToken; }
-        }
-
-        public object[] GetCustomAttributes(bool inherit) {
-            return ClrMember.GetCustomAttributes(inherit);
-        }
-
-        public object[] GetCustomAttributes(Type attributeType, bool inherit) {
-            return ClrMember.GetCustomAttributes(attributeType, inherit);
-        }
-
-        public bool IsDefined(Type attributeType, bool inherit) {
-            return ClrMember.IsDefined(attributeType, inherit);
-        }
-
         #region Equals
         /// <summary>
         /// Override Equals,return true if ClrMember equals

@@ -3,75 +3,102 @@ using System.Reflection;
 
 namespace System.Data.DataEntities.Metadata.Clr
 {
-    internal class EntityProperty : MemberMetadataBase<PropertyInfo>,IEntityProperty
-    {
-        private readonly Func<object, object> _getValueHandler;
-        private readonly Action<object, object> _setValueHandler;
+    internal class EntityProperty : MemberMetadataBase<PropertyInfo>, IEntityProperty {
+        private Func<object, object> _getValueHandler;
+        private Action<object, object> _setValueHandler;
 
         public EntityProperty(PropertyInfo property)
-            :base(property)
-        {
-            //If the property and return types are public, then the use of dynamic compilation delegate.
-            _getValueHandler = property.GetGetValueFunc();
-            if (_getValueHandler == null)
-            {
-                //Otherwise, use reflection to access.
-                _getValueHandler = this.GetValueByReflection;
-            }
-
-            _setValueHandler = property.GetSetValueFunc();
-            if (_setValueHandler == null)
-            {
-                _setValueHandler = this.SetValueByReflection;
-            }
-            _propertyDescriptor = new Lazy<PropertyDescriptor>(this.GetPropertyDescriptor, false);
+            : base(property) {
         }
 
-        public object GetValue(object entity)
-        {
+        #region GetValue
+
+        public object GetValue(object entity) {
+            //这些动态编译的工作都是延迟处理的，很多时候属性从来不用，就没有必要初始化。
+            if (_getValueHandler == null) {
+                System.Threading.Interlocked.CompareExchange<Func<object, object>>(ref _getValueHandler, GetGetValueHandler(), null);
+            }
+
             return _getValueHandler(entity);
         }
 
-        private object GetValueByReflection(object entity)
-        {
+        private Func<object, object> GetGetValueHandler() {
+            //If the property and return types are public, then the use of dynamic compilation delegate.
+            var handler = ClrMember.GetGetValueFunc();
+            if (handler == null) {
+                //Otherwise, use reflection to access.
+                handler = this.GetValueByReflection;
+            }
+
+            return handler;
+        }
+
+        private object GetValueByReflection(object entity) {
             return this.ClrMember.GetValue(entity, null);
         }
 
-        public void SetValue(object entity, object newValue)
-        {
+        #endregion
+
+        #region SetValue
+
+        public void SetValue(object entity, object newValue) {
+            if (_setValueHandler == null) {
+                System.Threading.Interlocked.CompareExchange<Action<object, object>>(ref _setValueHandler, GetSetValueHandler(), null);
+            }
             this._setValueHandler(entity, newValue);
         }
 
-        private void SetValueByReflection(object entity, object newValue)
-        {
+        private Action<object, object> GetSetValueHandler() {
+            var handler = ClrMember.GetSetValueFunc();
+            if (handler == null) {
+                handler = this.SetValueByReflection;
+            }
+
+            return handler;
+        }
+
+        private void SetValueByReflection(object entity, object newValue) {
             this.ClrMember.SetValue(entity, newValue, null);
         }
 
-        private Lazy<PropertyDescriptor> _propertyDescriptor;
+        #endregion
 
-        private PropertyDescriptor GetPropertyDescriptor()
-        {
+        #region ResetValue
+
+        private PropertyDescriptor _propertyDescriptor;
+
+        private PropertyDescriptor GetPropertyDescriptor() {
             var propertyDesc = TypeDescriptor.GetProperties(this.ClrMember.ReflectedType).Find(this.ClrMember.Name, false);
-            if (propertyDesc == null)
-            {
+            if (propertyDesc == null) {
                 throw new NotSupportedException();
             }
             return propertyDesc;
         }
 
+        private PropertyDescriptor PropertyDescriptor {
+            get {
+                if (_propertyDescriptor == null) {
+                    System.Threading.Interlocked.CompareExchange<PropertyDescriptor>(ref _propertyDescriptor, GetPropertyDescriptor(), null);
+                }
+
+                return _propertyDescriptor;
+            }
+        }
+    
         public void ResetValue(object entity)
         {
-            this._propertyDescriptor.Value.ResetValue(entity);
+            this.PropertyDescriptor.ResetValue(entity);
         }
+        #endregion
 
         public bool ShouldSerializeValue(object entity)
         {
-            return this._propertyDescriptor.Value.ShouldSerializeValue(entity);
+            return this.PropertyDescriptor.ShouldSerializeValue(entity);
         }
 
         public ComponentModel.TypeConverter Converter
         {
-            get { return this._propertyDescriptor.Value.Converter; }
+            get { return this.PropertyDescriptor.Converter; }
         }
 
         public bool IsReadOnly
@@ -79,9 +106,23 @@ namespace System.Data.DataEntities.Metadata.Clr
             get { return !this.ClrMember.CanWrite; }
         }
 
-        public Type PropertyType
+        private EntityType _propertyType;
+        public EntityType PropertyType
         {
-            get { return this.ClrMember.PropertyType; }
+            get {
+                if (_propertyType == null) {
+                    System.Threading.Interlocked.CompareExchange<EntityType>(
+                        ref _propertyType, 
+                        EntityType.GetEntityType(this.ClrMember.PropertyType), 
+                        null);
+                }
+
+                return _propertyType;
+            }
+        }
+
+        IEntityType IValueAccessor.PropertyType {
+            get { return this.PropertyType; }
         }
     }
 }

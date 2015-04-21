@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reflection;
 
 namespace System.Data.DataEntities {
@@ -100,6 +101,10 @@ namespace System.Data.DataEntities {
 
         internal static void ThrowInvalidOperationException(string message) {
             throw new InvalidOperationException(message);
+        }
+
+        internal static void ThrowKeyNotFoundException(string message) {
+            throw new KeyNotFoundException(message);
         }
     }
 }
