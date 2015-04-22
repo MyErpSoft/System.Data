@@ -21,7 +21,6 @@ namespace System.Data.DataEntities.Metadata {
         /// <param name="items">To initialize an array</param>
         protected MetadataReadOnlyCollection(IEnumerable<T> items) {
             if (items != null) {
-                //在诸如EntityType.Properties这种应用中，属性是一开始就确定的，不会动态添加，字典也几乎不用，这个时候我们是延迟创建字典的。
                 AddRangePrivate(items, false);
             }
             else {
@@ -49,7 +48,6 @@ namespace System.Data.DataEntities.Metadata {
         protected Dictionary<string, T> Dictionary {
             get {
                 if (_dict == null) {
-                    //EntityType这些实现，使用CLR的信息，他们在静态方法中创建并访问，所以是多线程的。
                     Threading.Interlocked.CompareExchange<Dictionary<string, T>>(ref _dict, this.CreateDictionary(), null);
                 }
 

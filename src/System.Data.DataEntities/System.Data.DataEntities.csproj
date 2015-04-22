@@ -59,7 +59,6 @@
     <Compile Include="Metadata\Dynamic\DynamicEntityStructField.cs" />
     <Compile Include="Metadata\Dynamic\DynamicEntityType.cs" />
     <Compile Include="Metadata\Dynamic\DynamicMemberMetadata.cs" />
-    <Compile Include="Metadata\IEntityField.cs" />
     <Compile Include="Metadata\IEntityProperty.cs" />
     <Compile Include="Metadata\IEntityType.cs" />
     <Compile Include="Metadata\IMemberMetadata.cs" />

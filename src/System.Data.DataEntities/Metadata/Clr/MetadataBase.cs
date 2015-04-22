@@ -6,7 +6,7 @@ namespace System.Data.DataEntities.Metadata.Clr {
         /// <summary>
         /// Return CLR member.
         /// </summary>
-        protected readonly T ClrMember;
+        protected readonly T ClrMapping;
 
         /// <summary>
         /// Create MemberMetadataBase instance.
@@ -17,11 +17,11 @@ namespace System.Data.DataEntities.Metadata.Clr {
                 OrmUtility.ThrowArgumentNullException("memberInfo");
             }
 
-            this.ClrMember = memberInfo;
+            this.ClrMapping = memberInfo;
         }
 
         public string Name {
-            get { return ClrMember.Name; }
+            get { return ClrMapping.Name; }
         }
 
         #region Equals
@@ -31,17 +31,17 @@ namespace System.Data.DataEntities.Metadata.Clr {
         public override bool Equals(object obj) {
             MemberMetadataBase<T> other = obj as MemberMetadataBase<T>;
             if (other != null) {
-                return object.Equals(other.ClrMember, this.ClrMember);
+                return object.Equals(other.ClrMapping, this.ClrMapping);
             }
             return false;
         }
 
         public override int GetHashCode() {
-            return this.ClrMember.GetHashCode();
+            return this.ClrMapping.GetHashCode();
         }
 
         public override string ToString() {
-            return this.ClrMember.ToString();
+            return this.ClrMapping.ToString();
         }
         #endregion
     }

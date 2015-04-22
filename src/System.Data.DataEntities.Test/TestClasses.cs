@@ -12,11 +12,12 @@ namespace System.Data.DataEntities.Test {
     }
 
     public class MyForm {
-        public string Name;
-        public int Width;
+        public string Name { get; set; }
+        public int Width { get; set; }
     }
 
     public class MyForm2 : MyForm {
+        public Size Size { get; set; }
     }
 
     public static class PerformanceTest {

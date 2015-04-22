@@ -35,19 +35,12 @@ namespace System.Data.DataEntities.Metadata {
         IEntityProperty GetProperty(string name);
 
         /// <summary>
-        /// 返回指定名称的字段。
-        /// </summary>
-        /// <param name="name">要检索的字段名称</param>
-        /// <returns>如果找到此名称的字段将返回他，否则（找不到或类型不一致），将抛出异常。</returns>
-        IEntityField GetField(string name);
-
-        /// <summary>
         /// 尝试获取指定名称的成员
         /// </summary>
         /// <param name="name">要检索的成员名称</param>
         /// <param name="member">如果找到将返回他，否则返回null</param>
         /// <returns>如果找到将返回true，否则返回false.</returns>
-        bool TryGetMember(string name,out IMemberMetadata member);
+        bool TryGetProperty(string name,out IEntityProperty member);
 
         /// <summary>
         /// Return this IEntityType maping runtime type.(CLR Type).

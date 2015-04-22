@@ -51,6 +51,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ClrEntityTypeTest.cs" />
     <Compile Include="DynamicEntityTypeTest.cs" />
     <Compile Include="DynamicFieldTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

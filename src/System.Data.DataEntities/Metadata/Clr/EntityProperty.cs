@@ -24,7 +24,7 @@ namespace System.Data.DataEntities.Metadata.Clr
 
         private Func<object, object> GetGetValueHandler() {
             //If the property and return types are public, then the use of dynamic compilation delegate.
-            var handler = ClrMember.GetGetValueFunc();
+            var handler = ClrMapping.GetGetValueFunc();
             if (handler == null) {
                 //Otherwise, use reflection to access.
                 handler = this.GetValueByReflection;
@@ -34,7 +34,7 @@ namespace System.Data.DataEntities.Metadata.Clr
         }
 
         private object GetValueByReflection(object entity) {
-            return this.ClrMember.GetValue(entity, null);
+            return this.ClrMapping.GetValue(entity, null);
         }
 
         #endregion
@@ -49,7 +49,7 @@ namespace System.Data.DataEntities.Metadata.Clr
         }
 
         private Action<object, object> GetSetValueHandler() {
-            var handler = ClrMember.GetSetValueFunc();
+            var handler = ClrMapping.GetSetValueFunc();
             if (handler == null) {
                 handler = this.SetValueByReflection;
             }
@@ -58,7 +58,7 @@ namespace System.Data.DataEntities.Metadata.Clr
         }
 
         private void SetValueByReflection(object entity, object newValue) {
-            this.ClrMember.SetValue(entity, newValue, null);
+            this.ClrMapping.SetValue(entity, newValue, null);
         }
 
         #endregion
@@ -68,7 +68,7 @@ namespace System.Data.DataEntities.Metadata.Clr
         private PropertyDescriptor _propertyDescriptor;
 
         private PropertyDescriptor GetPropertyDescriptor() {
-            var propertyDesc = TypeDescriptor.GetProperties(this.ClrMember.ReflectedType).Find(this.ClrMember.Name, false);
+            var propertyDesc = TypeDescriptor.GetProperties(this.ClrMapping.ReflectedType).Find(this.ClrMapping.Name, false);
             if (propertyDesc == null) {
                 throw new NotSupportedException();
             }
@@ -103,7 +103,7 @@ namespace System.Data.DataEntities.Metadata.Clr
 
         public bool IsReadOnly
         {
-            get { return !this.ClrMember.CanWrite; }
+            get { return !this.ClrMapping.CanWrite; }
         }
 
         private EntityType _propertyType;
@@ -113,7 +113,7 @@ namespace System.Data.DataEntities.Metadata.Clr
                 if (_propertyType == null) {
                     System.Threading.Interlocked.CompareExchange<EntityType>(
                         ref _propertyType, 
-                        EntityType.GetEntityType(this.ClrMember.PropertyType), 
+                        EntityType.GetEntityType(this.ClrMapping.PropertyType), 
                         null);
                 }
 

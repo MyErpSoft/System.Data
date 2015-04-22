@@ -38,23 +38,23 @@ namespace System.Data.DataEntities.Metadata.Clr
 
         #region Properties
         public bool IsAbstract {
-            get { return this.ClrMember.IsAbstract; }
+            get { return this.ClrMapping.IsAbstract; }
         }
 
         public bool IsSealed {
-            get { return this.ClrMember.IsSealed; }
+            get { return this.ClrMapping.IsSealed; }
         }
 
         public string Namespace {
-            get { return this.ClrMember.Namespace; }
+            get { return this.ClrMapping.Namespace; }
         }
 
         public string FullName {
-            get { return this.ClrMember.FullName; }
+            get { return this.ClrMapping.FullName; }
         }
 
         public Type UnderlyingSystemType {
-            get { return this.ClrMember.UnderlyingSystemType; }
+            get { return this.ClrMapping.UnderlyingSystemType; }
         }
         
         #endregion
@@ -62,7 +62,7 @@ namespace System.Data.DataEntities.Metadata.Clr
         private Func<object> _createInstanceFunc;
         public object CreateInstance() {
             if (_createInstanceFunc == null) {
-                Interlocked.CompareExchange<Func<object>>(ref _createInstanceFunc, this.ClrMember.GetCreateInstanceFunc(), null);
+                Interlocked.CompareExchange<Func<object>>(ref _createInstanceFunc, this.ClrMapping.GetCreateInstanceFunc(), null);
             }
 
             return _createInstanceFunc();
@@ -71,59 +71,43 @@ namespace System.Data.DataEntities.Metadata.Clr
         #region Property & Field
 
         public IEntityProperty GetProperty(string name) {
-            IMemberMetadata member;
-            if (TryGetMember(name,out member)) {
-                IEntityProperty property = member as IEntityProperty;
-                if (property != null) {
-                    return property;
-                }
+            IEntityProperty property;
+            if (TryGetProperty(name, out property)) {
+                return property;
             }
 
             OrmUtility.ThrowKeyNotFoundException(string.Format(CultureInfo.CurrentCulture,
                 Properties.Resources.KeyNotFoundException, this.Name, name));
             return null;
         }
-
-        public IEntityField GetField(string name) {
-            IMemberMetadata member;
-            if (TryGetMember(name, out member)) {
-                IEntityField field = member as IEntityField;
-                if (field != null) {
-                    return field;
-                }
-            }
-
-            OrmUtility.ThrowKeyNotFoundException(string.Format(CultureInfo.CurrentCulture,
-                Properties.Resources.KeyNotFoundException, this.Name, name));
-            return null;
-        }
-
-        private readonly MetadataReadOnlyCollection<IMemberMetadata> _members = new MemberCollection();
+        
+        private PropertyCollection _properties;
         /// <summary>
         /// 尝试获取指定名称的成员
         /// </summary>
         /// <param name="name">要检索的成员名称</param>
-        /// <param name="member">如果找到将返回他，否则返回null</param>
+        /// <param name="property">如果找到将返回他，否则返回null</param>
         /// <returns>如果找到将返回true，否则返回false.</returns>
-        public bool TryGetMember(string name, out IMemberMetadata member) {
+        public bool TryGetProperty(string name, out IEntityProperty property) {
             if (string.IsNullOrEmpty(name)) {
-                member = null;
+                property = null;
                 return false;
             }
 
             //从已加载的集合中获取         
-            if (_members.TryGetValue(name,out member)) {
+            if (_properties != null && _properties.TryGetValue(name,out property)) {
                 return true;
             }
 
             //反射获取成员信息。
             var clrMemberInfo = GetClrMember(name);
             if (clrMemberInfo == null) {
+                property = null;
                 return false;
             }
 
             //加入缓存
-            return this.TryGetMemberCore(clrMemberInfo, out member);
+            return this.TryGetPropertyCore(clrMemberInfo, out property);
         }
 
         /// <summary>
@@ -132,7 +116,8 @@ namespace System.Data.DataEntities.Metadata.Clr
         /// <param name="name">要获取的字段或属性的名称</param>
         /// <returns>如果找到并确认公开，返回其实例，否则返回null.</returns>
         protected virtual MemberInfo GetClrMember(string name) {
-            var members = this.ClrMember.GetMember(name, 
+            //虽然IEntityType对外公开的是Property,但实际上我们也可以包装字段
+            var members = this.ClrMapping.GetMember(name, 
                 Reflection.BindingFlags.Instance | Reflection.BindingFlags.Public | Reflection.BindingFlags.NonPublic);
             //字段和属性只能有一个
             if (members != null && members.Length > 0) {
@@ -142,31 +127,39 @@ namespace System.Data.DataEntities.Metadata.Clr
             return null;
         }
 
-        private bool TryGetMemberCore(MemberInfo clrMember, out IMemberMetadata member) {
+        private bool TryGetPropertyCore(MemberInfo clrMember, out IEntityProperty property) {
             //如果成员来自基类，那么应该使用基类的对象，这样可以节约Member对象的数量。
             lock (this) {
-                if (_members.TryGetValue(clrMember.Name, out member)) {
+                if (_properties != null && _properties.TryGetValue(clrMember.Name, out property)) {
                     return true;
                 }
 
                 //如果成员定义在基类，那么应该从基类获取，这样可以大大减少Property的描述对象
                 var declaringType = clrMember.DeclaringType;
-                if (declaringType != this.ClrMember) {
-                    //这里调用TryGetMemberCore，目的是减少一次反射，由于TryGetMemberCore第一句话还会检查缓存，所以还是会使用缓存的。
-                    if (!EntityType.GetEntityType(declaringType).TryGetMemberCore(ClrMember, out member)) {
+                if (declaringType != this.ClrMapping) {
+                    //这里调用TryGetPropertyCore，目的是减少一次反射，由于TryGetPropertyCore第一句话还会检查缓存，所以还是会使用缓存的。
+                    if (!EntityType.GetEntityType(declaringType).TryGetPropertyCore(clrMember, out property)) {
                         return false; //基类可能认为此属性不适合公开
                     }
                 }
                 else {
-                    member = this.CreateMemberMetadata(clrMember);
+                    property = this.CreatePropertyMetadata(clrMember);
                 }
 
-                _members.Add(member);
+                if (_properties == null) {
+                    _properties = new PropertyCollection();
+                }
+                _properties.Add(property);
                 return true;
             }
         }
 
-        protected IMemberMetadata CreateMemberMetadata(MemberInfo clrMember) {
+        /// <summary>
+        /// 根据Clr成员信息创建属性对象。
+        /// </summary>
+        /// <param name="clrMember">一个clr成员</param>
+        /// <returns>创建成功的成员</returns>
+        protected IEntityProperty CreatePropertyMetadata(MemberInfo clrMember) {
             PropertyInfo p = clrMember as PropertyInfo;
             if (p != null) {
                 return new EntityProperty(p);
@@ -176,11 +169,11 @@ namespace System.Data.DataEntities.Metadata.Clr
             }
         }
 
-        private sealed class MemberCollection : MetadataReadOnlyCollection<IMemberMetadata> {
-            public MemberCollection() :base(null){
+        private sealed class PropertyCollection : MetadataReadOnlyCollection<IEntityProperty> {
+            public PropertyCollection() :base(null){
             }
 
-            protected override string GetName(IMemberMetadata item) {
+            protected override string GetName(IEntityProperty item) {
                 return item.Name;
             }
         }
