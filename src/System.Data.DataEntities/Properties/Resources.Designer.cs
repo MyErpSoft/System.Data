@@ -79,6 +79,15 @@ namespace System.Data.DataEntities.Properties {
         }
         
         /// <summary>
+        ///   查找类似 类型 {0} 已经包含成员 {1}，不能添加重名的成员。 的本地化字符串。
+        /// </summary>
+        internal static string KeyIsExisted {
+            get {
+                return ResourceManager.GetString("KeyIsExisted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 类型 {0} 未能找到成员 {1}，或成员不符合需要的类型。 的本地化字符串。
         /// </summary>
         internal static string KeyNotFoundException {

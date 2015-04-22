@@ -10,9 +10,9 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
     internal sealed class DynamicEntityNullableField : DynamicEntityField {
         private readonly Type _underlyingType;
 
-        public DynamicEntityNullableField(string name, Type propertyType)
+        public DynamicEntityNullableField(string name, IEntityType propertyType)
             : base(name, propertyType) {
-                this._underlyingType = Nullable.GetUnderlyingType(propertyType);
+                this._underlyingType = Nullable.GetUnderlyingType(propertyType.UnderlyingSystemType);
         }
 
         protected override object GetValueCore(DynamicEntity entity) {
@@ -27,6 +27,7 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
             else {
                 //Check the data types
                 var newValueType = newValue.GetType();
+                //值类型没有派生关系
                 if (newValueType != this._underlyingType) {
                     OrmUtility.ThrowArgumentException("Assigning data types do not match.");
                 }

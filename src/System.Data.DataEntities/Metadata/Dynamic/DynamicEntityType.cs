@@ -8,7 +8,7 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
     /// <summary>
     /// Dynamic entity type.
     /// </summary>
-    public class DynamicEntityType : DynamicMemberMetadata {
+    public class DynamicEntityType : DynamicMemberMetadata,IEntityType {
 
         /// <summary>
         /// Dynamic entity types, allows creating a type at run time and used to carry the physical structure of the data.
@@ -32,6 +32,8 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
 
             _name = name;
             _namespace = nameSpace;
+
+            this._members = new MemberCollection();
             this._fields = new DynamicEntityFieldCollection(this);
         }
 
@@ -58,8 +60,22 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
             get { return string.IsNullOrEmpty(_namespace) ? _name : string.Concat(_namespace, ".", _name); }
         }
 
+        bool IEntityType.IsAbstract {
+            get { return false; }
+        }
+
+        bool IEntityType.IsSealed {
+            get { return false; }
+        }
+
+        Type IEntityType.UnderlyingSystemType {
+            get { return typeof(DynamicEntity); }
+        }
         #endregion
 
+        //all members, include field,property,event...
+        private readonly MemberCollection _members; 
+        //only fields
         private readonly DynamicEntityFieldCollection _fields;
         /// <summary>
         /// Return all properties for this EntityType.
@@ -95,6 +111,12 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
         #endregion
 
         #region Properties Field
+        private sealed class MemberCollection : MetadataReadOnlyCollection<DynamicMemberMetadata> {
+            public MemberCollection() : base(null) { }
+            protected override string GetName(DynamicMemberMetadata item) {
+                return item.Name;
+            }
+        }
 
         /// <summary>
         /// Registered with the current dynamic entity type is a simple property.
@@ -106,6 +128,14 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
         public DynamicEntityField RegisterField(
             string name, Type propertyType) {
 
+            if (propertyType == null) {
+                OrmUtility.ThrowArgumentNullException("propertyType");
+            }
+
+            return this.RegisterField(name, Clr.EntityType.GetEntityType(propertyType));
+        }
+
+        public DynamicEntityField RegisterField(string name, IEntityType propertyType) {
             #region Parameter checking
             this.CheckIsFrozen();
 
@@ -116,28 +146,73 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
             if (propertyType == null) {
                 OrmUtility.ThrowArgumentNullException("propertyType");
             }
+            if (_members.Contains(name)) {
+                OrmUtility.ThrowArgumentException(string.Format(CultureInfo.CurrentCulture,
+                    Properties.Resources.KeyIsExisted, this.Name, name));
+            }
             #endregion
 
-            DynamicEntityField property;
+            DynamicEntityField field;
+            var systemType = propertyType.UnderlyingSystemType;
 
-            if (propertyType.IsValueType) {
-                if (Nullable.GetUnderlyingType(propertyType) == null) {
-                    property = new DynamicEntityStructField(name, propertyType);
+            if (systemType.IsValueType) {
+                if (Nullable.GetUnderlyingType(systemType) == null) {
+                    field = new DynamicEntityStructField(name, propertyType);
                 }
                 else {
-                    property = new DynamicEntityNullableField(name, propertyType);
+                    field = new DynamicEntityNullableField(name, propertyType);
                 }
             }
             else {
-                property = new DynamicEntityObjectField(name, propertyType);
+                field = new DynamicEntityObjectField(name, propertyType);
             }
 
-            this._fields.Add(property);
+            this._fields.Add(field);
+            this._members.Add(field);
             this.OnMetadataChanged();
 
-            return property;
+            return field;
         }
 
+        IEntityProperty IEntityType.GetProperty(string name) {
+            IEntityProperty property;
+            if (((IEntityType)this).TryGetProperty(name, out property)) {
+                return property;
+            }
+
+            OrmUtility.ThrowKeyNotFoundException(string.Format(CultureInfo.CurrentCulture,
+                Properties.Resources.KeyNotFoundException, this.Name, name));
+            return null;
+        }
+
+        bool IEntityType.TryGetProperty(string name, out IEntityProperty member) {
+            DynamicMemberMetadata item;
+            if(this._members.TryGetValue(name,out item)) {
+                member = item as IEntityProperty;
+                return member != null;
+            }
+
+            member = null;
+            return false;
+        }
+
+        /// <summary>
+        /// 确定指定的对象是否是当前 IEntityType 的实例。
+        /// </summary>
+        /// <param name="obj">要与当前类型进行比较的对象。</param>
+        /// <returns>如果可以分配到当前类型，返回true，否则返回false.</returns>
+        public bool IsInstanceOfType(object obj) {
+            if (obj == null) {
+                return false; //根据CLR Type的实现，应该是返回false.
+            }
+
+            DynamicEntity entity = obj as DynamicEntity;
+            if (entity == null) {
+                return false;
+            }
+
+            return entity.DynamicEntityType == this;
+        }
         #endregion
 
         #region Freeze
@@ -161,7 +236,7 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
         public bool IsFrozen {
             get { return this._isFrozen; }
         }
-    
+
         private void CheckIsFrozen() {
             if (_isFrozen) {
                 OrmUtility.ThrowInvalidOperationException(string.Format(
@@ -170,6 +245,7 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
                     this.Name));
             }
         }
+
         #endregion
     }
 }

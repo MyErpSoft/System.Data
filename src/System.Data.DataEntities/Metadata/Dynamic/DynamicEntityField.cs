@@ -6,7 +6,7 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
     /// <summary>
     /// DynamicEntity field definitions.
     /// </summary>
-    public abstract class DynamicEntityField : DynamicMemberMetadata {
+    public abstract class DynamicEntityField : DynamicMemberMetadata,IEntityProperty {
 
         /// <summary>
         /// Derived class can create dynamic entity filed.
@@ -16,7 +16,7 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
         /// <param name="defaultValue">set this property default value when not set value.</param>
         protected DynamicEntityField(
             string name,
-            Type propertyType) {
+            IEntityType propertyType) {
             _name = name;
             _propertyType = propertyType;
         }
@@ -46,6 +46,18 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
             if (entity.DynamicEntityType != this._reflectedType) {
                 OrmUtility.ThrowArgumentException("entity");
             }
+        }
+
+        private DynamicEntity VerifyEntity(object obj) {
+            if (obj == null) {
+                OrmUtility.ThrowArgumentNullException("entity");
+            }
+            DynamicEntity entity = obj as DynamicEntity;
+            if (entity.DynamicEntityType != this._reflectedType) {
+                OrmUtility.ThrowArgumentException("entity");
+            }
+
+            return entity;
         }
 
         /// <summary>
@@ -80,8 +92,23 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
         /// <param name="entity">Will reset the property value of an entity.</param>
         public void ResetValue(DynamicEntity entity) {
             this.VerifyEntity(entity);
+            this.ResetValueCore(entity);            
+        }
 
+        protected virtual void ResetValueCore(DynamicEntity entity) {
             entity._storage.ClearValue(this);
+        }
+
+        object IValueAccessor.GetValue(object entity) {
+            return this.GetValueCore(VerifyEntity(entity));
+        }
+
+        void IValueAccessor.SetValue(object entity, object newValue) {
+            this.SetValueCore(VerifyEntity(entity), newValue);
+        }
+
+        void IValueAccessor.ResetValue(object entity) {
+            this.ResetValueCore(VerifyEntity(entity));
         }
 
         /// <summary>
@@ -98,14 +125,14 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
 
         #endregion
 
-        private readonly Type _propertyType;
+        private readonly IEntityType _propertyType;
         /// <summary>
         /// Gets the return type of the property.
         /// </summary>
-        public Type PropertyType {
-            get { return _propertyType; }
+        public IEntityType PropertyType {
+            get { return this._propertyType; }
         }
-
+    
         private int _ordinal;
         /// <summary>
         /// Gets the property's location in the collection of ReflectedType.
@@ -114,13 +141,21 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
             get { return _ordinal; }
             internal set { _ordinal = value; }
         }
-        
+
+        /// <summary>
+        /// Gets a value indicating whether the property is read-only.
+        /// </summary>
+        bool IValueAccessor.IsReadOnly {
+            get { return false; }
+        }
+
         /// <summary>
         /// Returns property information.
         /// </summary>
         /// <returns>Including the name, type and other information.</returns>
         public override string ToString() {
-            return string.Format("{0} {1}.{2}", this.PropertyType.Name, this.ReflectedType.Name, this.Name);
+            return string.Format("{0}: {1}",this.Name, this.PropertyType.Name);
         }
+
     }
 }

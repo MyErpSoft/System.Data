@@ -146,6 +146,42 @@ namespace System.Data.DataEntities.Test {
         }
 
         [TestMethod]
+        public void TestRegisterComplexProperty() {
+            var dt = new DynamicEntityType("Csutomer");
+            var idField = dt.RegisterField("Id", typeof(int));
+
+            var dt2 = new DynamicEntityType("Address");
+            var homeField = dt.RegisterField("Home", typeof(string));
+
+            var addressField = dt.RegisterField("Address", dt2);
+
+            var obj = new DynamicEntity(dt);
+            Assert.IsNull(addressField.GetValue(obj));
+
+            var address = new DynamicEntity(dt2);
+            addressField.SetValue(obj, address);
+            Assert.AreEqual(address, addressField.GetValue(obj));
+
+            Exception ex2 = null;
+            try {
+                addressField.SetValue(obj, new DynamicEntity(dt));
+            }
+            catch (Exception ex) {
+                ex2 = ex;
+            }
+            Assert.IsNotNull(ex2 != null);
+
+            ex2 = null;
+            try {
+                addressField.SetValue(obj, 5);
+            }
+            catch (Exception ex) {
+                ex2 = ex;
+            }
+            Assert.IsNotNull(ex2 != null);
+        }
+
+        [TestMethod]
         public void TestGetSetValuePerformance() {
             DynamicEntityType dt = new DynamicEntityType("StructTest");
             var int32Field = dt.RegisterField("Int32", typeof(int));

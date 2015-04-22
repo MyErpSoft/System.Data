@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 namespace System.Data.DataEntities.Metadata.Dynamic {
 
     internal sealed class DynamicEntityObjectField : DynamicEntityField {
-        public DynamicEntityObjectField(string name, Type propertyType)
+        public DynamicEntityObjectField(string name, IEntityType propertyType)
             : base(name, propertyType) {
         }
 
+        private readonly Type _propertySystemType;
         protected override object GetValueCore(DynamicEntity entity) {
             return entity._storage.GetValue(this);
         }
@@ -23,11 +24,10 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
             }
             else {
                 //Check the data types
-                var newValueType = newValue.GetType();
-                if ((newValueType != this.PropertyType) &&
-                    (!this.PropertyType.IsAssignableFrom(newValueType))) {
+                if (!this.PropertyType.IsInstanceOfType(newValue)) {
                     OrmUtility.ThrowArgumentException("Assigning data types do not match.");
                 }
+                
                 entity._storage.SetValue(this, newValue);
             }
         }

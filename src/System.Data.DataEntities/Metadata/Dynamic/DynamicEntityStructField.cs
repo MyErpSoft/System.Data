@@ -9,9 +9,10 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
 
     internal sealed class DynamicEntityStructField : DynamicEntityField {
 
-        public DynamicEntityStructField(string name, Type propertyType)
+        public DynamicEntityStructField(string name, IEntityType propertyType)
             : base(name, propertyType) {
-            this._defaultValue = Activator.CreateInstance(this.PropertyType);
+            this._propertySystemType = this.PropertyType.UnderlyingSystemType;
+            this._defaultValue = Activator.CreateInstance(_propertySystemType);
         }
 
         private readonly object _defaultValue;
@@ -31,6 +32,15 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
             return value;
         }
 
+        //only cache
+        private readonly Type _propertySystemType;
+        /// <summary>
+        /// Gets the return system type of the property.
+        /// </summary>
+        public Type PropertySystemType {
+            get { return _propertySystemType; }
+        }
+
         protected override void SetValueCore(DynamicEntity entity, object newValue) {
 
             if (newValue == null) {
@@ -44,7 +54,7 @@ namespace System.Data.DataEntities.Metadata.Dynamic {
             else {
                 //Check the data types
                 var newValueType = newValue.GetType();
-                if (newValueType != this.PropertyType) {
+                if (newValueType != _propertySystemType) {
                     OrmUtility.ThrowArgumentException("Assigning data types do not match.");
                 }
                 entity._storage.SetValue(this, newValue);

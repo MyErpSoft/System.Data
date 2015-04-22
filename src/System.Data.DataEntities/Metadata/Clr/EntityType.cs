@@ -54,7 +54,7 @@ namespace System.Data.DataEntities.Metadata.Clr
         }
 
         public Type UnderlyingSystemType {
-            get { return this.ClrMapping.UnderlyingSystemType; }
+            get { return this.ClrMapping; }
         }
         
         #endregion
@@ -66,6 +66,15 @@ namespace System.Data.DataEntities.Metadata.Clr
             }
 
             return _createInstanceFunc();
+        }
+
+        /// <summary>
+        /// 确定指定的对象是否是当前 IEntityType 的实例。
+        /// </summary>
+        /// <param name="obj">要与当前类型进行比较的对象。</param>
+        /// <returns>如果可以分配到当前类型，返回true，否则返回false.</returns>
+        public bool IsInstanceOfType(object obj) {
+            return this.ClrMapping.IsInstanceOfType(obj);
         }
 
         #region Property & Field
