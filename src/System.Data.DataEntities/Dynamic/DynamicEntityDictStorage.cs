@@ -3,7 +3,7 @@ using System.Data.Metadata.DataEntities.Dynamic;
 
 namespace System.Data.DataEntities.Dynamic {
 
-    internal struct DynamicEntityDictStorage : IDynamicEntityStorage {
+    internal sealed class DynamicEntityDictStorage : IDynamicEntityStorage {
         private Dictionary<DynamicEntityField,object> _values;
 
         public object GetValue(DynamicEntityField field) {

@@ -1,4 +1,5 @@
 ﻿using System.Data.DataEntities.Dynamic;
+using System.Runtime.CompilerServices;
 
 namespace System.Data.Metadata.DataEntities.Dynamic {
 
@@ -38,6 +39,7 @@ namespace System.Data.Metadata.DataEntities.Dynamic {
         }
 
         #region Field Get/Set
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void VerifyEntity(DynamicEntity entity) {
             if (entity == null) {
                 OrmUtility.ThrowArgumentNullException("entity");
@@ -47,6 +49,7 @@ namespace System.Data.Metadata.DataEntities.Dynamic {
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private DynamicEntity VerifyEntity(object obj) {
             if (obj == null) {
                 OrmUtility.ThrowArgumentNullException("entity");
