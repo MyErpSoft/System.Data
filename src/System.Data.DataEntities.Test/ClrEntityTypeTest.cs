@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Data.DataEntities.Metadata;
+using System.Data.Metadata.DataEntities;
 
 namespace System.Data.DataEntities.Test {
 

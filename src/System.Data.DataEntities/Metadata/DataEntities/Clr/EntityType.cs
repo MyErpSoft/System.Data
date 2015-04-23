@@ -1,11 +1,10 @@
 ﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Threading;
 
-namespace System.Data.DataEntities.Metadata.Clr
-{
+namespace System.Data.Metadata.DataEntities.Clr {
+
     /// <summary>
     /// CLR type IEntityType achieve.
     /// </summary>

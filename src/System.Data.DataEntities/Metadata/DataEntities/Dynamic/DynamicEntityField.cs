@@ -1,7 +1,6 @@
-﻿using System.ComponentModel;
-using System.Data.DataEntities.Dynamic;
+﻿using System.Data.DataEntities.Dynamic;
 
-namespace System.Data.DataEntities.Metadata.Dynamic {
+namespace System.Data.Metadata.DataEntities.Dynamic {
 
     /// <summary>
     /// DynamicEntity field definitions.

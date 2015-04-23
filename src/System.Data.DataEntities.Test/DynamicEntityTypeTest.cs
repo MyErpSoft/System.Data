@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data.DataEntities.Dynamic;
-using System.Data.DataEntities.Metadata.Dynamic;
+using System.Data.Metadata.DataEntities.Dynamic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace System.Data.DataEntities.Test {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace System.Data.DataEntities.Metadata {
+namespace System.Data.Metadata.DataEntities {
 
     /// <summary>
     /// Describes a type of entity information.

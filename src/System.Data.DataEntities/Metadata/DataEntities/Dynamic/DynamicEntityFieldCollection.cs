@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Collections;
 
-namespace System.Data.DataEntities.Metadata.Dynamic {
+namespace System.Data.Metadata.DataEntities.Dynamic {
 
     /// <summary>
     /// DynamicEntityField collection.

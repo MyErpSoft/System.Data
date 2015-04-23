@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Reflection.Emit;
 
-namespace System.Data.DataEntities.Metadata.Clr
+namespace System.Data.Metadata.DataEntities.Clr
 {
     internal static class ClrHelper
     {

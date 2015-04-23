@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 
-namespace System.Data.DataEntities.Metadata {
+namespace System.Data.Metadata.DataEntities {
 
     /// <summary>
     /// Metadata for a read-only collection

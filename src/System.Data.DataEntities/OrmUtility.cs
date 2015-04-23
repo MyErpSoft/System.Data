@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Reflection;
 
-namespace System.Data.DataEntities {
+namespace System.Data {
     /// <summary>
     /// Provides static functions that access to the ORM entity.
     /// </summary>

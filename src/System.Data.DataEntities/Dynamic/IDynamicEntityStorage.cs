@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data.DataEntities.Metadata.Dynamic;
+﻿using System.Data.Metadata.DataEntities.Dynamic;
 
 namespace System.Data.DataEntities.Dynamic {
 

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
 
-namespace System.Data.DataEntities.Metadata.Clr
+namespace System.Data.Metadata.DataEntities.Clr
 {
     internal class EntityProperty : MemberMetadataBase<PropertyInfo>, IEntityProperty {
         private Func<object, object> _getValueHandler;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace System.Data.DataEntities.Metadata {
+namespace System.Data.Metadata.DataEntities {
 
     public static class MetadataExtensions {
 

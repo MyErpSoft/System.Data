@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace System.Data.DataEntities.Metadata.Clr {
+namespace System.Data.Metadata.DataEntities.Clr {
 
     internal abstract class MemberMetadataBase<T> : IMemberMetadata where T : MemberInfo {
         /// <summary>

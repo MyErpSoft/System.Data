@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Data.DataEntities.Dynamic;
+﻿using System.Data.DataEntities.Dynamic;
 using System.Globalization;
-using System.Linq;
 
-namespace System.Data.DataEntities.Metadata.Dynamic {
+namespace System.Data.Metadata.DataEntities.Dynamic {
 
     /// <summary>
     /// Dynamic entity type.

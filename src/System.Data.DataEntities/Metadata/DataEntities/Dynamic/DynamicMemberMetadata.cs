@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-namespace System.Data.DataEntities.Metadata.Dynamic {
+namespace System.Data.Metadata.DataEntities.Dynamic {
 
     /// <summary>
     /// Dynamic entity metadata base class

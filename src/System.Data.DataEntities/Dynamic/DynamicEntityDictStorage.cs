@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.DataEntities.Metadata.Dynamic;
+﻿using System.Collections.Generic;
+using System.Data.Metadata.DataEntities.Dynamic;
 
 namespace System.Data.DataEntities.Dynamic {
 

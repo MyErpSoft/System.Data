@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.DataEntities.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.DataEntities.Dynamic;
 
-namespace System.Data.DataEntities.Metadata.Dynamic {
+namespace System.Data.Metadata.DataEntities.Dynamic {
 
     internal sealed class DynamicEntityStructField : DynamicEntityField {
 

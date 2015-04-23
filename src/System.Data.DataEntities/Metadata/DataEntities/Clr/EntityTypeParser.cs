@@ -1,9 +1,5 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.ComponentModel;
-
-namespace System.Data.DataEntities.Metadata.Clr
-{
+﻿
+namespace System.Data.Metadata.DataEntities.Clr {
     /// <summary>
     /// 描述了从CLR Type转换为EntityType的方法。注：现在还没有打算公开EntityType，所以此方法也不公开
     /// </summary>

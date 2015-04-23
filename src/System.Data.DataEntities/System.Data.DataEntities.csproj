@@ -7,7 +7,7 @@
     <ProjectGuid>{E08635B9-DAD0-43EA-9970-702EEB7B0190}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>System.Data.DataEntities</RootNamespace>
+    <RootNamespace>System.Data</RootNamespace>
     <AssemblyName>System.Data.DataEntities</AssemblyName>
     <TargetFrameworkVersion>v4.5.3</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -43,26 +43,26 @@
     <Compile Include="Dynamic\DynamicEntityArrayStorage.cs" />
     <Compile Include="Dynamic\DynamicEntityDictStorage.cs" />
     <Compile Include="Dynamic\IDynamicEntityStorage.cs" />
-    <Compile Include="Metadata\Clr\ClrHelper.cs" />
-    <Compile Include="Metadata\Clr\EntityProperty.cs" />
-    <Compile Include="Metadata\Clr\EntityType.cs" />
-    <Compile Include="Metadata\Clr\EntityTypeParser.cs" />
-    <Compile Include="Metadata\Clr\EntityTypeParser.DataObjectAttribute.cs" />
-    <Compile Include="Metadata\Clr\EntityTypeParser.Generic.cs" />
-    <Compile Include="Metadata\Clr\EntityTypeParser.PropertyInfo.cs" />
-    <Compile Include="Metadata\Clr\EntityTypeParser.XmlTypeAttribute.cs" />
-    <Compile Include="Metadata\Clr\MetadataBase.cs" />
-    <Compile Include="Metadata\Dynamic\DynamicEntityField.cs" />
-    <Compile Include="Metadata\Dynamic\DynamicEntityFieldCollection.cs" />
-    <Compile Include="Metadata\Dynamic\DynamicEntityNullableField.cs" />
-    <Compile Include="Metadata\Dynamic\DynamicEntityObjectField.cs" />
-    <Compile Include="Metadata\Dynamic\DynamicEntityStructField.cs" />
-    <Compile Include="Metadata\Dynamic\DynamicEntityType.cs" />
-    <Compile Include="Metadata\Dynamic\DynamicMemberMetadata.cs" />
-    <Compile Include="Metadata\IEntityProperty.cs" />
-    <Compile Include="Metadata\IEntityType.cs" />
+    <Compile Include="Metadata\DataEntities\Clr\ClrHelper.cs" />
+    <Compile Include="Metadata\DataEntities\Clr\EntityProperty.cs" />
+    <Compile Include="Metadata\DataEntities\Clr\EntityType.cs" />
+    <Compile Include="Metadata\DataEntities\Clr\EntityTypeParser.cs" />
+    <Compile Include="Metadata\DataEntities\Clr\EntityTypeParser.DataObjectAttribute.cs" />
+    <Compile Include="Metadata\DataEntities\Clr\EntityTypeParser.Generic.cs" />
+    <Compile Include="Metadata\DataEntities\Clr\EntityTypeParser.PropertyInfo.cs" />
+    <Compile Include="Metadata\DataEntities\Clr\EntityTypeParser.XmlTypeAttribute.cs" />
+    <Compile Include="Metadata\DataEntities\Clr\MetadataBase.cs" />
+    <Compile Include="Metadata\DataEntities\Dynamic\DynamicEntityField.cs" />
+    <Compile Include="Metadata\DataEntities\Dynamic\DynamicEntityFieldCollection.cs" />
+    <Compile Include="Metadata\DataEntities\Dynamic\DynamicEntityNullableField.cs" />
+    <Compile Include="Metadata\DataEntities\Dynamic\DynamicEntityObjectField.cs" />
+    <Compile Include="Metadata\DataEntities\Dynamic\DynamicEntityStructField.cs" />
+    <Compile Include="Metadata\DataEntities\Dynamic\DynamicEntityType.cs" />
+    <Compile Include="Metadata\DataEntities\Dynamic\DynamicMemberMetadata.cs" />
+    <Compile Include="Metadata\DataEntities\IEntityProperty.cs" />
+    <Compile Include="Metadata\DataEntities\IEntityType.cs" />
     <Compile Include="Metadata\IMemberMetadata.cs" />
-    <Compile Include="Metadata\IValueAccessor.cs" />
+    <Compile Include="Metadata\DataEntities\IValueAccessor.cs" />
     <Compile Include="Metadata\MetadataExtensions.cs" />
     <Compile Include="Metadata\MetadataReadOnlyCollection.cs" />
     <Compile Include="OrmUtility.cs" />
