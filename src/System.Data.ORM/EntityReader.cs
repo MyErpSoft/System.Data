@@ -27,25 +27,26 @@ namespace System.Data.ORM {
     /// </summary>
     internal sealed class EntityReader : IEnumerable {
 
-        public EntityReader(IDataReader reader,EntitySelector[] entitySelector) {
+        public EntityReader(IDataReader reader,EntitySelector[] entitySelectors) {
             #region 参数检查
             if (reader == null) {
                 OrmUtility.ThrowArgumentNullException("reader");
             }
-            if (entitySelector == null || entitySelector.Length == 0) {
+            if (entitySelectors == null || entitySelectors.Length == 0) {
                 OrmUtility.ThrowArgumentNullException("entitySelector");
             }
             #endregion
 
             this._reader = reader;
 
-            _propertyFieldPairs = new PropertyFieldPair[_entitySelector.Length][];
-            for (int i = 0; i < _entitySelector.Length; i++) {
-                _propertyFieldPairs[i] = _entitySelector[i].GetPropertyMappers();
+            _entitySelectors = entitySelectors;
+            _propertyFieldPairs = new PropertyFieldPair[_entitySelectors.Length][];
+            for (int i = 0; i < _entitySelectors.Length; i++) {
+                _propertyFieldPairs[i] = _entitySelectors[i].GetPropertyMappers();
             }
 
             _values = new object[_reader.FieldCount];
-            _entities = new object[_entitySelector.Length];
+            _entities = new object[_entitySelectors.Length];
         }
         
         //这里放在类变量是有讲究的，当循环填充每行数据时，我们不希望创建太多的对象，会造成GC的压力，
@@ -56,7 +57,7 @@ namespace System.Data.ORM {
         private object[] _entities;
 
         private readonly IDataReader _reader;
-        private readonly EntitySelector[] _entitySelector;
+        private readonly EntitySelector[] _entitySelectors;
         private readonly PropertyFieldPair[][] _propertyFieldPairs;
 
         /// <summary>
@@ -80,8 +81,8 @@ namespace System.Data.ORM {
             object entity;
 
             //一个表或Select输出，会转换为多个实体，每个实体对应独立的映射定义。
-            for (int i = 0; i < _entitySelector.Length; i++) {
-                var entityTableMapper = _entitySelector[i];
+            for (int i = 0; i < _entitySelectors.Length; i++) {
+                var entityTableMapper = _entitySelectors[i];
                 //创建/或搜索一个实体。只有新创建的对象才会填充数据。
                 if (entityTableMapper.TryCreateEntity(_values,out entity)) {
                     FillEntity(entity, _propertyFieldPairs[i]);
@@ -105,7 +106,7 @@ namespace System.Data.ORM {
             object value;
             foreach (var mapper in propertyFieldMaps) {
                 value = _values[mapper.FieldIndex];
-                if (DBNull.Value != value && value != null) {
+                if (DBNull.Value != value && null != value) {
                     //数据转换的工作被放在前置reader处理了，传入的values已经转换。这是因为不同的数据库输出需要不同的转换，例如
                     //Oracle没有int，输出的都是小数，所以Oracle驱动要自己转换，而SQLServer不存在此问题。
                     mapper.Property.SetValue(entity, value);

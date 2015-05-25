@@ -24,7 +24,7 @@ namespace System.Data.Metadata.Mapping {
         /// </summary>
         /// <param name="fieldIndex">字段在SQL输出中的位置</param>
         /// <param name="property">映射中的属性</param>
-        public PropertyFieldPair(int fieldIndex, IEntityProperty property) {
+        public PropertyFieldPair(int fieldIndex, IValueAccessor property) {
             Contract.Requires(fieldIndex >= 0);
             Contract.Requires(property != null);
 
