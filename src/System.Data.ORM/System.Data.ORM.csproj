@@ -42,11 +42,31 @@
     <Compile Include="EntityReader.cs" />
     <Compile Include="Metadata\Database\IField.cs" />
     <Compile Include="Metadata\Database\ITable.cs" />
+    <Compile Include="Metadata\Edm\AssociationType.cs" />
+    <Compile Include="Metadata\Edm\DomainPropertyKind.cs" />
+    <Compile Include="Metadata\Edm\EdmMember.cs" />
+    <Compile Include="Metadata\Edm\EdmProperty.cs" />
+    <Compile Include="Metadata\Edm\EdmPropertyCollection.cs" />
+    <Compile Include="Metadata\Edm\EdmType.cs" />
+    <Compile Include="Metadata\Edm\EntityType.cs" />
+    <Compile Include="Metadata\Edm\EntityTypeBase.cs" />
+    <Compile Include="Metadata\Edm\EnumType.cs" />
+    <Compile Include="Metadata\Edm\GlobalItem.cs" />
+    <Compile Include="Metadata\Edm\MetadataItem.cs" />
+    <Compile Include="Metadata\Edm\MetadataName.cs" />
+    <Compile Include="Metadata\Edm\NavigationProperty.cs" />
+    <Compile Include="Metadata\Edm\NavigationPropertyCollection.cs" />
+    <Compile Include="Metadata\Edm\PrimitiveType.cs" />
+    <Compile Include="Metadata\Edm\RelationshipType.cs" />
+    <Compile Include="Metadata\Edm\SimpleType.cs" />
+    <Compile Include="Metadata\Edm\StructuralType.cs" />
     <Compile Include="Metadata\Mapping\EntitySelector.cs" />
     <Compile Include="Metadata\Mapping\PropertyFieldPair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Metadata\Edm\DomainModels ClassDiagram.cd" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\System.Data.DataEntities\System.Data.DataEntities.csproj">
       <Project>{e08635b9-dad0-43ea-9970-702eeb7b0190}</Project>
