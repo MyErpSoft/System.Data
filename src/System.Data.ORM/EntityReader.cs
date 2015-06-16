@@ -18,7 +18,7 @@ namespace System.Data.ORM {
     /// <summary>
     /// 读取实体的读取器。
     /// </summary>
-    internal sealed class EntityReader : IEnumerable {
+    internal sealed class EntityReader {
 
         public EntityReader(IDataReader reader,EntitySelector[] entitySelectors) {
             #region 参数检查
@@ -40,6 +40,7 @@ namespace System.Data.ORM {
 
             _values = new object[_reader.FieldCount];
             _entities = new object[_entitySelectors.Length];
+            _entitySelectorsLength = _entitySelectors.Length;
         }
         
         //这里放在类变量是有讲究的，当循环填充每行数据时，我们不希望创建太多的对象，会造成GC的压力，
@@ -53,58 +54,50 @@ namespace System.Data.ORM {
         private readonly EntitySelector[] _entitySelectors;
         private readonly PropertyFieldPair[][] _propertyFieldPairs;
 
+        private object _entity;
+        private int _entitySelectorsLength;
+        private PropertyFieldPair[] _propertyFieldMaps;
+        private EntitySelector _entityTableMapper;
+
         /// <summary>
-        /// 返回一个枚举器，使之返回所有的行实体
+        /// 读取一笔记录，如果返回的是null，表示没有记录了。
         /// </summary>
-        /// <returns></returns>
-        public IEnumerator GetEnumerator() {
-            while (_reader.Read()) {
+        /// <returns>如果正确读取到一笔记录，将返回此对象。</returns>
+        public object Read() {
+            if (_reader.Read()) {
                 _reader.GetValues(_values);
-                FillRow();
 
-                yield return _entities[0];
-            };
-        }
+                // 填充一整行的所有数据。
+                //一个表或Select输出，会转换为多个实体，每个实体对应独立的映射定义。
+                for (int i = 0; i < _entitySelectorsLength; i++) {
+                    _entityTableMapper = _entitySelectors[i];
+                    //创建/或搜索一个实体。只有新创建的对象才会填充数据。
+                    if (_entityTableMapper.TryCreateEntity(_values, out _entity)) {
+                        // 将一批指定的数据填充到实体，依据是一个映射定义。
+                        _propertyFieldMaps = _propertyFieldPairs[i];
 
-        /// <summary>
-        /// 填充一整行的所有数据。
-        /// </summary>
-        private void FillRow() {
+                        //循环所有的映射定义，填充值即可。考虑的问题越简单，效率越高，越灵活。
+                        //如果一个实体在多个表中取值，可以在组织SQL时将数据组织到一个Select结果，或者建立多个EntityTableMapper实例；
+                        //同理，如果一个表有多个实体的数据，也可以建立多个EntityTableMapper实例，而不是让EntityTableMapper变得结构复杂。
+                        object value;
+                        foreach (var mapper in _propertyFieldMaps) {
+                            value = _values[mapper.FieldIndex];
+                            if (DBNull.Value != value && null != value) {
+                                //数据转换的工作被放在前置reader处理了，传入的values已经转换。这是因为不同的数据库输出需要不同的转换，例如
+                                //Oracle没有int，输出的都是小数，所以Oracle驱动要自己转换，而SQLServer不存在此问题。
+                                mapper.Property.SetValue(_entity, value);
+                            }
+                        }
+                    }
 
-            object entity;
-
-            //一个表或Select输出，会转换为多个实体，每个实体对应独立的映射定义。
-            for (int i = 0; i < _entitySelectors.Length; i++) {
-                var entityTableMapper = _entitySelectors[i];
-                //创建/或搜索一个实体。只有新创建的对象才会填充数据。
-                if (entityTableMapper.TryCreateEntity(_values,out entity)) {
-                    FillEntity(entity, _propertyFieldPairs[i]);
+                    //无论是新创建的对象，还是已有的对象，都放入实体集合。
+                    _entities[i] = _entity;
                 }
 
-                //无论是新创建的对象，还是已有的对象，都放入实体集合。
-                _entities[i] = entity;
+                return _entities[0];
             }
-        }
 
-        /// <summary>
-        /// 将一批指定的数据填充到实体，依据是一个映射定义。
-        /// </summary>
-        /// <param name="entity">要填充数据的实体。</param>
-        /// <param name="entityTableMapper">一个映射定义。</param>
-        private void FillEntity(object entity, PropertyFieldPair[] propertyFieldMaps) {
-
-            //循环所有的映射定义，填充值即可。考虑的问题越简单，效率越高，越灵活。
-            //如果一个实体在多个表中取值，可以在组织SQL时将数据组织到一个Select结果，或者建立多个EntityTableMapper实例；
-            //同理，如果一个表有多个实体的数据，也可以建立多个EntityTableMapper实例，而不是让EntityTableMapper变得结构复杂。
-            object value;
-            foreach (var mapper in propertyFieldMaps) {
-                value = _values[mapper.FieldIndex];
-                if (DBNull.Value != value && null != value) {
-                    //数据转换的工作被放在前置reader处理了，传入的values已经转换。这是因为不同的数据库输出需要不同的转换，例如
-                    //Oracle没有int，输出的都是小数，所以Oracle驱动要自己转换，而SQLServer不存在此问题。
-                    mapper.Property.SetValue(entity, value);
-                }
-            }
+            return null;
         }
     }//end class
 }//end namespace

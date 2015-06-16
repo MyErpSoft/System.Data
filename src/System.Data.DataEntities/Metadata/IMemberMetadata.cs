@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace System.Data.Metadata.DataEntities {
+namespace System.Data.Metadata {
 
     /// <summary>
     /// The base interface for the entity member metadata.

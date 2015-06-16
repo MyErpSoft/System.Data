@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph ZoomLevel="1" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="ClrAttribute" Bounds="-638.54779889667,-435.759999389648,90.8499999999999,25.24" Label="Clr Attribute" UseManualLocation="True" />
+    <Node Id="CodeFirst的形式，用Builder在运行时构建Edm模型" Category="Comment" Bounds="-461.543911336263,-427.952551220703,238.246666666667,40.48" Label="Code First的形式，用Builder在运行时构建Edm模型" UseManualLocation="True" />
+    <Node Id="DatabaseMetadata" Bounds="-733.100855116466,-231.855,128.586666666667,25.24" UseManualLocation="True" />
+    <Node Id="Edm" Bounds="-691,-317.38,50,25.24" UseManualLocation="True" />
+    <Node Id="EdmBuilder" Bounds="-553.000005696615,-357.472451220703,89.4466666666667,25.24" Label="Edm Builder" UseManualLocation="True" />
+    <Node Id="Xml" Bounds="-805.547790527344,-401.164952441406,50,25.24" Label="xml" UseManualLocation="True" />
+    <Node Id="可以在Clr对象上添加Attribute描述Edm" Category="Comment" Bounds="-670,-578.57,232.816666666667,25.24" UseManualLocation="True" />
+    <Node Id="可以通过xml配置文件创建Edm对象" Category="Comment" Bounds="-986.904465563337,-456.405052441406,210.036666666667,25.24" UseManualLocation="True" />
+    <Node Id="通过Edm创建数据库结构信息" Category="Comment" Bounds="-761.100855116466,-150.2125,177.516666666667,25.24" UseManualLocation="True" />
+  </Nodes>
+  <Links>
+    <Link Source="ClrAttribute" Target="Edm" Bounds="-653.512674087379,-410.519999389648,52.6207395033805,85.4758829371174" />
+    <Link Source="CodeFirst的形式，用Builder在运行时构建Edm模型" Target="EdmBuilder" Bounds="-466.563025734018,-387.472551220703,70.739297722521,26.8104669045578" />
+    <Link Source="Edm" Target="DatabaseMetadata" Bounds="-668.097962968389,-292.14,1.68368731912688,51.2898453124928" />
+    <Link Source="EdmBuilder" Target="Edm" Bounds="-632.27739474514,-333.605837540267,79.7566494874799,20.2737263220097" />
+    <Link Source="Xml" Target="Edm" Bounds="-763.294177863829,-375.924952441406,72.7763704968269,53.2316224770763" />
+    <Link Source="可以在Clr对象上添加Attribute描述Edm" Target="ClrAttribute" Bounds="-587.228470977751,-553.33,30.1434713049196,108.896176573116" />
+    <Link Source="可以通过xml配置文件创建Edm对象" Target="Xml" Bounds="-858.73465581545,-431.165052441406,47.3859277445351,25.8303357171691" />
+    <Link Source="通过Edm创建数据库结构信息" Target="DatabaseMetadata" Bounds="-671.7960902531,-197.623425324449,2.05283870565086,47.4109253244486" />
+  </Links>
+  <Categories>
+    <Category Id="Comment" Label="注释" Description="表示在图表中用户定义的注释" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="注释" />
+  </Categories>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
+    <Property Id="Label" Label="标签" Description="可批注对象的可显示标签" DataType="System.String" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="UseManualLocation" DataType="System.Boolean" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+    <Property Id="ZoomLevel" DataType="System.String" />
+  </Properties>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="类别 2" ValueLabel="具有类别">
+      <Condition Expression="HasCategory('Category2')" />
+      <Setter Property="Background" Value="#FF339933" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="类别 1" ValueLabel="具有类别">
+      <Condition Expression="HasCategory('Category1')" />
+      <Setter Property="Background" Value="#FFE51400" />
+    </Style>
+    <Style TargetType="Node" GroupLabel="注释" ValueLabel="包含注释">
+      <Condition Expression="HasCategory('Comment')" />
+      <Setter Property="Background" Value="#FFFFFACD" />
+      <Setter Property="Stroke" Value="#FFE5C365" />
+      <Setter Property="StrokeThickness" Value="1" />
+      <Setter Property="NodeRadius" Value="2" />
+      <Setter Property="MaxWidth" Value="250" />
+    </Style>
+  </Styles>
+</DirectedGraph>

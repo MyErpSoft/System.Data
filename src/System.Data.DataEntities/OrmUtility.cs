@@ -5,6 +5,8 @@ namespace System.Data {
     /// Provides static functions that access to the ORM entity.
     /// </summary>
     internal static class OrmUtility {
+        internal const string ActiveObject = "ActiveObject";
+
         /// <summary>
         /// Verifies that the string is composed of letters or numbers (allow underscore). Separation of and supports the use of a namespace
         /// </summary>
@@ -103,6 +105,10 @@ namespace System.Data {
 
         internal static void ThrowKeyNotFoundException(string message) {
             throw new KeyNotFoundException(message);
+        }
+
+        internal static void ThrowObjectDisposedException(string objectName) {
+            throw new ObjectDisposedException(objectName);
         }
     }
 }
