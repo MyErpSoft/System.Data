@@ -5,7 +5,7 @@
     /// </summary>
     public class EndMember {
 
-        public EndMember(Field fromField, Field toField, object fromConstant, object toConstant) {
+        public EndMember(Field fromField, Field toField, object fromConstant = null, object toConstant = null, bool allowDefaultValue = false) {
             if (fromField != null && fromConstant != null) {
                 //From不能 字段或常量都指定。
                 OrmUtility.ThrowArgumentException(Properties.Resources.EndMemberError1);
@@ -18,26 +18,61 @@
                 OrmUtility.ThrowArgumentException(Properties.Resources.EndMemberError2);
             }
 
-            this._fromField = fromField;
-            this._toField = toField;
+            this._fromField = (fromField == null) ? NullField : new DictectObjectReference<Field>(fromField);
+            this._toField = (toField == null) ? NullField : new DictectObjectReference<Field>(toField);
             this._fromConstant = fromConstant;
             this._toConstant = toConstant;
+            this._allowDefaultValue = allowDefaultValue;
         }
 
-        private readonly Field _fromField;
+        public EndMember(string fromFieldName, string toFieldName, object fromConstant = null, object toConstant = null, bool allowDefaultValue = false) {
+            ObjectReference<Field> fromField = string.IsNullOrEmpty(fromFieldName) ? null : new EndMemberFieldReference(this, fromFieldName, true);
+            ObjectReference<Field> toField = string.IsNullOrEmpty(toFieldName) ? null : new EndMemberFieldReference(this, toFieldName, false);
+
+            if (fromField != null && fromConstant != null) {
+                //From不能 字段或常量都指定。
+                OrmUtility.ThrowArgumentException(Properties.Resources.EndMemberError1);
+            }
+            if (toField != null && toConstant != null) {
+                OrmUtility.ThrowArgumentException(Properties.Resources.EndMemberError1);
+            }
+            if (fromField == null && toField == null) {
+                //不能两边都是常量。
+                OrmUtility.ThrowArgumentException(Properties.Resources.EndMemberError2);
+            }
+
+            this._fromField = fromField ?? NullField;
+            this._toField = toField ?? NullField;
+            this._fromConstant = fromConstant;
+            this._toConstant = toConstant;
+            this._allowDefaultValue = allowDefaultValue;
+        }
+
+        private readonly static DictectObjectReference<Field> NullField = new DictectObjectReference<Field>(null);
+
+        private Relationship _relationship;
+        /// <summary>
+        /// 返回 关系对所在的关系对象。
+        /// </summary>
+        public Relationship Relationship {
+            get { return this._relationship; }
+            internal set { this._relationship = value; }
+        }
+
+        private readonly ObjectReference<Field> _fromField;
         /// <summary>
         /// 如果是字段关联字段，那么此属性返回左边关联的字段，否则为null.
         /// </summary>
         public Field FromField {
-            get { return this._fromField; }
+            get { return this._fromField.Value; }
         }
 
-        private readonly Field _toField;
+        private readonly ObjectReference<Field> _toField;
         /// <summary>
         /// 如果是字段关联字段，那么此属性返回右边关联的字段，否则为null.
         /// </summary>
         public Field ToField {
-            get { return _toField; }
+            get { return _toField.Value; }
         }
 
         private readonly object _fromConstant;

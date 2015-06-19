@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Metadata;
 using System.Data.Metadata.Database;
 
 namespace System.Data.Query {
@@ -56,70 +57,38 @@ namespace System.Data.Query {
             get { return _relations == null || _relations.Count == 0; }
         }
 
-        /// <summary>
-        /// 通过一个关系名，尝试获取对应的子表。必须是当前已经添加到Relations中的数据，而不是Table中已经定义的关系。
-        /// </summary>
-        /// <param name="relationName">要检索的关系名称</param>
-        /// <param name="tableNode">如果此名称的关系找到，将返回此实例，否则返回null.</param>
-        /// <returns>如果找到此关系名称的子表，返回true，否则返回false.</returns>
-        public bool TryGetChild(string relationName, out TableNode tableNode) {
-            if (!this.RelationsIsEmpty) {
-                foreach (var item in this.Relations) {
-                    if (item.ParentRelationship.Name == relationName) {
-                        tableNode = item;
-                        return true;
-                    }
-                }
-            }
-
-            tableNode = null;
-            return false;
-        }
-
-        private Collection<TableNode> _relations;
+        private TableNodeCollection _relations;
         /// <summary>
         /// 返回所有待输出的子表，这些表会在SQL语句中出现并使用join关联。
         /// </summary>
-        public Collection<TableNode> Relations {
+        public TableNodeCollection Relations {
             get {
                 if (_relations == null) {
-                    _relations = new Collection<TableNode>(new List<TableNode>(2));
+                    _relations = new TableNodeCollection();
                 }
                 return _relations;
             }
         }
-
-        /// <summary>
-        /// 尝试检测此表是否输出了某个字段。
-        /// </summary>
-        /// <param name="fieldName">要检测的字段名称。</param>
-        /// <param name="fieldNode">如果已经包含此字段，将返回此对象，否则返回null.</param>
-        /// <returns>返回是否已经包含此字段</returns>
-        public bool TryGetField(string fieldName,out FieldNode fieldNode) {
-            if (this._fields != null) {
-                foreach (var field in this._fields) {
-                    if (field.Field.Name == fieldName) {
-                        fieldNode = field;
-                        return true;
-                    }
-                }
-            }
-
-            fieldNode = null;
-            return false;
-        }
-
-        private Collection<FieldNode> _fields;
+        
+        private FieldNodeCollection _fields;
         /// <summary>
         /// 返回此表所有在SQL语句中出现的字段。
         /// </summary>
-        public Collection<FieldNode> Fields {
+        public FieldNodeCollection Fields {
             get {
                 if (_fields == null) {
-                    _fields = new Collection<FieldNode>();
+                    _fields = new FieldNodeCollection();
                 }
                 return _fields;
             }
+        }
+    }
+
+    internal sealed class TableNodeCollection : MetadataCollection<string, TableNode> {
+        public TableNodeCollection():base(new List<TableNode>(2),null) {
+        }
+        protected override string GetKeyForItem(TableNode item) {
+            return item.ParentRelationship.Name;
         }
     }
 }

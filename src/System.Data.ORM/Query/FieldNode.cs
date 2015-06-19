@@ -1,4 +1,5 @@
-﻿using System.Data.Metadata.Database;
+﻿using System.Data.Metadata;
+using System.Data.Metadata.Database;
 
 namespace System.Data.Query {
 
@@ -34,5 +35,11 @@ namespace System.Data.Query {
             set { _alias = value; }
         }
 
+    }
+
+    internal sealed class FieldNodeCollection : MetadataCollection<string, FieldNode> {
+        protected override string GetKeyForItem(FieldNode item) {
+            return item.Field.Name;
+        }
     }
 }

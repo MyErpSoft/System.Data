@@ -52,8 +52,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AutoSelectSqlBuilderTest.cs" />
+    <Compile Include="DatabaseMetadataContainerTest.cs" />
     <Compile Include="EntityReaderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestClasses.cs" />
     <Compile Include="TestEnv.cs" />
   </ItemGroup>
   <ItemGroup>

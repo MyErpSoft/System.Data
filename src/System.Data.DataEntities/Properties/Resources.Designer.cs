@@ -79,6 +79,15 @@ namespace System.Data.Properties {
         }
         
         /// <summary>
+        ///   查找类似 关系 {0}.{1} 描述的关联字段 {2} 无效 的本地化字符串。
+        /// </summary>
+        internal static string EndMemberFieldError {
+            get {
+                return ResourceManager.GetString("EndMemberFieldError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 提供的名称 {0} 不正确，不能为空，且只能是字母、数字（不能是第一个字符）或下划线，最多256个字符。 的本地化字符串。
         /// </summary>
         internal static string ErrorName {
@@ -138,6 +147,15 @@ namespace System.Data.Properties {
         internal static string TableNotFoundException {
             get {
                 return ResourceManager.GetString("TableNotFoundException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 关系 {0}.{1} 指向的表 {2} 无效。 的本地化字符串。
+        /// </summary>
+        internal static string ToNameError {
+            get {
+                return ResourceManager.GetString("ToNameError", resourceCulture);
             }
         }
     }

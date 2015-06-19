@@ -1,4 +1,6 @@
-﻿namespace System.Data.Metadata.Database {
+﻿using System.Threading;
+
+namespace System.Data.Metadata.Database {
 
     /// <summary>
     /// 成员元数据的基类。

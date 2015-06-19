@@ -44,6 +44,7 @@
     <Compile Include="Dynamic\DynamicEntityDictStorage.cs" />
     <Compile Include="Dynamic\IDynamicEntityStorage.cs" />
     <Compile Include="LockFreeStack.cs" />
+    <Compile Include="Metadata\DataEntities\BuiltInTypes.cs" />
     <Compile Include="Metadata\DataEntities\Clr\ClrHelper.cs" />
     <Compile Include="Metadata\DataEntities\Clr\EntityProperty.cs" />
     <Compile Include="Metadata\DataEntities\Clr\EntityType.cs" />
@@ -79,7 +80,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx" >
+    <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>

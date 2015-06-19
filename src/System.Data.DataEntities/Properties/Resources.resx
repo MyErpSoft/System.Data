@@ -125,6 +125,10 @@
     <value>设定关系的关联关系时，不能两侧（From和To）同时设置为常量。</value>
     <comment>EndMember.Ctor</comment>
   </data>
+  <data name="EndMemberFieldError" xml:space="preserve">
+    <value>关系 {0}.{1} 描述的关联字段 {2} 无效</value>
+    <comment>EndMemberFieldReference</comment>
+  </data>
   <data name="ErrorName" xml:space="preserve">
     <value>提供的名称 {0} 不正确，不能为空，且只能是字母、数字（不能是第一个字符）或下划线，最多256个字符。</value>
     <comment>OrmUtility.VerifyName</comment>
@@ -151,5 +155,9 @@
   <data name="TableNotFoundException" xml:space="preserve">
     <value>未能找到名称为 {0} 的表。</value>
     <comment>DatabaseMetadataContainer.GetTable</comment>
+  </data>
+  <data name="ToNameError" xml:space="preserve">
+    <value>关系 {0}.{1} 指向的表 {2} 无效。</value>
+    <comment>RelationshipToTableReference.GetValue</comment>
   </data>
 </root>

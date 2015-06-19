@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph Layout="Sugiyama" ZoomLevel="-1" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="AutoSelectInfo" Bounds="0,55.24,104.873333333333,25.24" />
+    <Node Id="CompiledEntityCommand" Bounds="527.358350016276,164.171089119873,167.756666666667,25.24" UseManualLocation="True" />
+    <Node Id="DataReader" Bounds="280.825,165.72,87.2233333333334,25.24" />
+    <Node Id="DatabaseMetadataContainer" Bounds="128.076660766602,-1.5492108801267,184.72,25.24" />
+    <Node Id="DbCommand" Bounds="276.111666666667,110.48,96.65,25.24" />
+    <Node Id="DbConnection" Bounds="336.056660766602,53.6908891198733,102.76,25.24" />
+    <Node Id="EntityMapping" Bounds="403.226660766602,108.930989119873,104.42,25.24" />
+    <Node Id="EntityReader" Bounds="402.026666666667,220.96,92.82,25.24" />
+    <Node Id="EntitySelector" Bounds="398.445016682943,165.720053128052,98.9133333333334,25.24" />
+    <Node Id="IDatabaseMetadataBinder" Bounds="135.786666666667,55.24,169.3,25.24" />
+    <Node Id="MappingContainer" Bounds="490.557508341471,31.4111891198733,128.08,25.24" UseManualLocation="True" />
+    <Node Id="SQL" Bounds="195.436666666667,110.48,50,25.24" />
+    <Node Id="SelectArgs" Bounds="12.195,0,80.4833333333333,25.24" />
+  </Nodes>
+  <Links>
+    <Link Source="AutoSelectInfo" Target="SQL" Bounds="90.8175848246302,80.48005,96.069399222907,31.5885048190679" />
+    <Link Source="CompiledEntityCommand" Target="EntityReader" Bounds="493.112868405617,189.41109954834,81.9454218144446,28.5847903164712" />
+    <Link Source="DataReader" Target="EntityReader" Bounds="352.765330215523,190.96,59.1215475210178,26.3377736979541" />
+    <Link Source="DatabaseMetadataContainer" Target="IDatabaseMetadataBinder" Bounds="220.436662077749,23.6907891198733,2.34272181387496E-06,22.5490741621398" />
+    <Link Source="DbCommand" Target="DataReader" Bounds="324.436666666667,135.719963282013,1.13686837721616E-13,21.000036717987" />
+    <Link Source="DbConnection" Target="DbCommand" Bounds="345.121838865309,78.9308891198733,28.3145949690636,25.5231711771028" />
+    <Link Source="EntityMapping" Target="EntitySelector" Bounds="450.759927653418,134.17099105835,3.00226633147776,22.6272635069196" />
+    <Link Source="EntitySelector" Target="EntityReader" Bounds="448.023904154084,190.960063282013,0.203383573542567,21.0005220399188" />
+    <Link Source="IDatabaseMetadataBinder" Target="SQL" Bounds="220.436666666667,80.479863282013,0,21.000136717987" />
+    <Link Source="MappingContainer" Target="EntityMapping" Bounds="478.670230594343,56.6511889648438,59.784174097624,46.7367683557827" />
+    <Link Source="SQL" Target="DataReader" Bounds="243.684493918148,135.448172859344,49.0442201499093,26.0500261642403" />
+    <Link Source="SelectArgs" Target="AutoSelectInfo" Bounds="52.4366666666666,25.23995,5.6843418860808E-14,21.0001" />
+  </Links>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="Layout" DataType="System.String" />
+    <Property Id="UseManualLocation" DataType="System.Boolean" />
+    <Property Id="ZoomLevel" DataType="System.String" />
+  </Properties>
+</DirectedGraph>

@@ -5,6 +5,10 @@ namespace System.Data.Query {
 
     internal sealed class AutoSelectInfo : BasicAutoSqlInfo {
 
+        public AutoSelectInfo(SQLContext sqlContext, string rootTable)
+            : this(sqlContext, sqlContext.Binder.GetTable(rootTable)) {
+        }
+
         public AutoSelectInfo(SQLContext sqlContext, Table rootTable)
             : base(sqlContext, rootTable) {
             _selectFields = new List<FieldNode>();

@@ -60,7 +60,7 @@ namespace System.Data.Query {
 
             //已经输出过使用现有的，否则建立一个。
             TableNode result;
-            if (!tableNode.TryGetChild(relationName, out result)) {
+            if (!tableNode.Relations.TryGet(relationName, out result)) {
                 var relation = tableNode.Table.GetRelationship(relationName);
                 var alias = _sqlContext.CreateTableAlias();
                 result = new TableNode(relation.To, relation) { Alias = alias };
@@ -72,7 +72,7 @@ namespace System.Data.Query {
 
         protected FieldNode GetOrCreateField(TableNode tableNode, string fieldName) {
             FieldNode result;
-            if (tableNode.TryGetField(fieldName, out result)) {
+            if (tableNode.Fields.TryGet(fieldName, out result)) {
                 var alias = _sqlContext.CreateFieldAlias();
                 result = new FieldNode(tableNode, tableNode.Table.GetField(fieldName)) { Alias = alias };
                 tableNode.Fields.Add(result);

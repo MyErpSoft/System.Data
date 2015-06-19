@@ -82,7 +82,7 @@ namespace System.Data.Metadata.Database {
             if (table == null) {
                 OrmUtility.ThrowArgumentNullException("table");
             }
-            this.VerifyTable(table);
+            this.InitTable(table);
             
             return _tables.TryAdd(table.Name, table);
         }
@@ -91,10 +91,12 @@ namespace System.Data.Metadata.Database {
         /// 检测添加的表是否符合规范。
         /// </summary>
         /// <param name="table">要添加的表</param>
-        protected virtual void VerifyTable(Table table) {
+        protected virtual void InitTable(Table table) {
             if (!OrmUtility.VerifyName(table.Name)) {
                 OrmUtility.ThrowArgumentException(string.Format(System.Globalization.CultureInfo.CurrentCulture, Properties.Resources.ErrorName, table.Name));
             }
+
+            table.Container = this;
         }
         #endregion
 

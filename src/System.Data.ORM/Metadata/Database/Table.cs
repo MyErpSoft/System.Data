@@ -9,28 +9,63 @@ namespace System.Data.Metadata.Database {
     /// </summary>
     public class Table : MemberMetadata {
 
-        public Table(string name,Field[] fields, Relationship[] relationships)
+        public Table(string name, Field[] fields, Relationship[] relationships = null)
             : base(name) {
             if (fields == null) {
                 OrmUtility.ThrowArgumentNullException("fields");
             }
 
             _fields = fields;
-            _fieldsDict = new Dictionary<string, Field>(_fields.Length, DatabaseMetadataContainer.DefaultNameComparer);
-            foreach (var field in fields) {
-                _fieldsDict.Add(field.Name, field);
-            }
+            _fieldsDict = AddArrayToDictionary(fields, (field) => {
+                var key = field.Name;
+                if (field.Table != null) {
+                    OrmUtility.ThrowArgumentException(string.Format(CultureInfo.CurrentCulture, Properties.Resources.ItemExistedCollection, key));
+                }
+                field.Table = this;
+
+                return key;
+            });
 
             if (relationships == null) {
                 relationships = EmptyRelationships;
             }
             else {
-                _relationships = relationships;
-                _relationshipsDict = new Dictionary<string, Relationship>(relationships.Length, DatabaseMetadataContainer.DefaultNameComparer);
-                foreach (var relationship in relationships) {
-                    _relationshipsDict.Add(relationship.Name, relationship);
-                }
+                _relationshipsDict = AddArrayToDictionary(relationships, (relationship) => {
+                    var key = relationship.Name;
+                    if (relationship.From != null) {
+                        OrmUtility.ThrowArgumentException(string.Format(CultureInfo.CurrentCulture, Properties.Resources.ItemExistedCollection, key));
+                    }
+                    relationship.From = this;
+
+                    return key;
+                });
             }
+            this._relationships = relationships;
+        }
+
+        private Dictionary<string, T> AddArrayToDictionary<T>(T[] array,Func<T,string> getKeyFunc) {
+            var dict = new Dictionary<string, T>(array.Length, DatabaseMetadataContainer.DefaultNameComparer);
+            foreach (var field in array) {
+                string key = getKeyFunc(field);
+                if (field == null || string.IsNullOrEmpty(key)) {
+                    OrmUtility.ThrowArgumentNullException("fields");
+                }
+                if (dict.ContainsKey(key)) {
+                    OrmUtility.ThrowArgumentException(string.Format(CultureInfo.CurrentCulture, Properties.Resources.KeyIsExisted, this.Name, key));
+                }
+                dict.Add(key, field);
+            }
+
+            return dict;
+        }
+
+        private DatabaseMetadataContainer _container;
+        /// <summary>
+        /// 返回表现在对应在哪个容器中。
+        /// </summary>
+        public DatabaseMetadataContainer Container {
+            get { return this._container; }
+            internal set { this._container = value; }
         }
 
         private readonly Field[] _fields;
@@ -58,6 +93,7 @@ namespace System.Data.Metadata.Database {
         private static readonly Relationship[] EmptyRelationships = new Relationship[0];
         private readonly Relationship[] _relationships;
         private readonly Dictionary<string, Relationship> _relationshipsDict;
+
         /// <summary>
         /// 返回指定名称的关系对象
         /// </summary>
