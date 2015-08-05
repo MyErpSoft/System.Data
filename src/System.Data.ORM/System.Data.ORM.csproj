@@ -91,12 +91,6 @@
     <None Include="Metadata\Edm\Edm.dgml" />
     <None Include="Query\Query.dgml" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\System.Data.DataEntities\System.Data.DataEntities.csproj">
-      <Project>{e08635b9-dad0-43ea-9970-702eeb7b0190}</Project>
-      <Name>System.Data.DataEntities</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

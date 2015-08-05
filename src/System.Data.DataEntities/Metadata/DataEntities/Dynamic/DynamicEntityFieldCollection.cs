@@ -25,7 +25,7 @@ namespace System.Data.Metadata.DataEntities.Dynamic {
         /// </summary>
         /// <param name="item">DynamicEntityField instance</param>
         /// <returns>The DynamicEntityField's name</returns>
-        protected override string GetName(DynamicEntityField item) {
+        protected override string GetKeyForItem(DynamicEntityField item) {
             return item.Name;
         }
 
@@ -33,8 +33,8 @@ namespace System.Data.Metadata.DataEntities.Dynamic {
         /// When internal add element, update its index.
         /// </summary>
         /// <param name="item">add a element.</param>
-        internal override void Add(DynamicEntityField item) {
-            base.Add(item);
+        protected override void InsertItem(DynamicEntityField item) {
+            base.InsertItem(item);
             item.Ordinal = this.Items.Length - 1;
             item.ReflectedType = _reflectedType;
         }
@@ -43,9 +43,9 @@ namespace System.Data.Metadata.DataEntities.Dynamic {
         /// When internal add element, update its index.
         /// </summary>
         /// <param name="items">add a elements.</param>
-        internal override void AddRange(IEnumerable<DynamicEntityField> items) {
+        protected override void InsertItems(IEnumerable<DynamicEntityField> items) {
             int startIndex = this.Items.Length;
-            base.AddRange(items);
+            base.InsertItems(items);
             ResetOrdinal(startIndex);
         }
 

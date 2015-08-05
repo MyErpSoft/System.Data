@@ -1,0 +1,27 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "System.Data.DataEntities",
+  "authors": [ "tansm" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "dependencies": {
+  },
+
+  "frameworks": {
+    "dnx451": {
+      "dependencies": {
+      }
+    } /*,
+    "dnxcore50": {
+      "dependencies": {
+        "System.Runtime": "4.0.20",
+        "Microsoft.CSharp": "4.0.0",
+        "System.Linq": "4.0.0",
+        "System.Threading": "4.0.10",
+        "System.Collections": "4.0.10"
+      }
+    }*/
+  }
+}

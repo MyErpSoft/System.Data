@@ -90,7 +90,7 @@ namespace System.Data.Drivers {
             Sql.Append(" ON ");
 
             foreach (var endMember in childTable.ParentRelationship.EndMembers) {
-
+                //使用别名来描述字段吗？如果Select中没有出现怎么办
             }
         }
 
