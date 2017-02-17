@@ -17,7 +17,7 @@ namespace System.Collections.ObjectModel {
     /// <para>此类对外提供只读的访问，但派生类支持对集合的修改。</para>
     /// </remarks>
     [DebuggerTypeProxy(typeof(ReadOnlyKeyedCollection_DebugView<,>)), DebuggerDisplay("Count = {Count}")]
-    public abstract class ReadOnlyKeyedCollection<TKey, TItem> : IEnumerable<TItem> {
+    public abstract class ReadOnlyKeyedCollection<TKey, TItem> : IEnumerable<TItem> , ICollection<TItem> {
         private TItem[] _items;
         private Dictionary<TKey, TItem> _dict;
         private static readonly TItem[] _emptyArray = new TItem[0];
@@ -275,9 +275,8 @@ namespace System.Collections.ObjectModel {
                         newItems[startIndex++] = item;
                     }
                 }
-
-                Interlocked.CompareExchange(ref _items, newItems, oldItems);
-                if (_items == newItems) {
+                
+                if (Interlocked.CompareExchange(ref _items, newItems, oldItems) == oldItems) {
                     _dict = null;
                     break;
                 }
@@ -313,8 +312,8 @@ namespace System.Collections.ObjectModel {
                 TItem[] newItems = new TItem[1 + oldItems.Length];
                 oldItems.CopyTo(newItems, 0);
                 newItems[oldItems.Length] = item;
-                Interlocked.CompareExchange(ref _items, newItems, oldItems);
-                if (_items == newItems) {
+                
+                if (Interlocked.CompareExchange(ref _items, newItems, oldItems) == oldItems) {
                     _dict = null;
                     break;
                 }
@@ -333,6 +332,21 @@ namespace System.Collections.ObjectModel {
             return new ArrayEnumerator(_items);
         }
 
+        bool ICollection<TItem>.IsReadOnly {
+            get { return true; }
+        }
+
+        void ICollection<TItem>.Add(TItem item) {
+            throw new NotSupportedException();
+        }
+
+        void ICollection<TItem>.Clear() {
+            throw new NotSupportedException();
+        }
+        
+        bool ICollection<TItem>.Remove(TItem item) {
+            throw new NotSupportedException();
+        }
         #endregion
 
         #region The enumerator

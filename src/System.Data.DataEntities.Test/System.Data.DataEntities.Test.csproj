@@ -57,6 +57,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestClasses.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\System.Data.DataEntities\System.Data.DataEntities.csproj">
+      <Project>{E08635B9-DAD0-43EA-9970-702EEB7B0190}</Project>
+      <Name>System.Data.DataEntities</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

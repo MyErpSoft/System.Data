@@ -215,3 +215,4 @@ pip-log.txt
 .mr.developer.cfg
 /src/System.Data.sln.ide
 /src/.vs/config/applicationhost.config
+/src/System.Data.DataEntities/System.Data.DataEntities.xproj

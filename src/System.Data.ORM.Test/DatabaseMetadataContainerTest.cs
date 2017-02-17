@@ -1,8 +1,7 @@
-﻿using System.Data.Metadata.Database;
+﻿using System.Data.Metadata.DataEntities;
 using System.Data.ORM.Test;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
-using System.Data.Metadata.DataEntities;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace System.Data.Metadata.Database.Test {
 

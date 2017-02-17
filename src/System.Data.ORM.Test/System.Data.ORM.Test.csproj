@@ -60,6 +60,10 @@
     <Compile Include="TestEnv.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\System.Data.DataEntities\System.Data.DataEntities.csproj">
+      <Project>{E08635B9-DAD0-43EA-9970-702EEB7B0190}</Project>
+      <Name>System.Data.DataEntities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\System.Data.ORM\System.Data.ORM.csproj">
       <Project>{66a30470-638a-41fe-b124-ce4842247c8c}</Project>
       <Name>System.Data.ORM</Name>
