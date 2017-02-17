@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph Layout="Sugiyama" ZoomLevel="-1" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="ClrObject" Bounds="453.115,110.48,77.3,25.24" Label="Clr Object" />
+    <Node Id="Edm" Bounds="205,245.86,50,25.24" UseManualLocation="True" />
+    <Node Id="OSQL" Category="Comment" Bounds="370.439534506667,110.48001536,52.6509309866667,25.23996928" />
+    <Node Id="SQL" Bounds="331,268.96,54.61,25.24" Label="Driver" UseManualLocation="True" />
+    <Node Id="SQL1" Bounds="414.833333333333,368.980006103516,50,25.24" Label="SQL" UseManualLocation="True" />
+    <Node Id="SelectInfo" Category="Comment" Bounds="453.296666666667,165.72,76.9366666666667,25.24" />
+    <Node Id="创建查询信息" Bounds="98.3333333333333,0,533.333333333333,210.96" Group="Expanded" />
+    <Node Id="数据库驱动程序通过SelectInfo和Edm双重信息，分析出SQL" Category="Comment" Bounds="489.833333333333,246.980006103516,246.453333333333,40.48" UseManualLocation="True" />
+    <Node Id="通过检索Clr对象的属性清单，获取要查询的字段信息" Category="Comment" Bounds="371.863333333333,40,239.803333333333,40.48" />
+    <Node Id="通过类似SQL的查询语句描述查询信息" Category="Comment" Bounds="118.333333333333,47.62,222.863333333333,25.24" />
+  </Nodes>
+  <Links>
+    <Link Source="ClrObject" Target="SelectInfo" Bounds="491.765014648438,135.720001220703,0,21" />
+    <Link Source="Edm" Target="SQL" Bounds="255,262.980990285908,67.1424115278517,12.0883051569051" />
+    <Link Source="OSQL" Target="SelectInfo" Bounds="418.468444824219,135.719985961914,43.8127746582031,25.4759674072266" />
+    <Link Source="SQL" Target="SQL1" Bounds="368.591817675274,294.2,55.2683609276447,67.8039347954413" />
+    <Link Source="创建查询信息" Target="ClrObject" Category="Contains" />
+    <Link Source="创建查询信息" Target="OSQL" Category="Contains" />
+    <Link Source="创建查询信息" Target="SelectInfo" Category="Contains" />
+    <Link Source="创建查询信息" Target="通过检索Clr对象的属性清单，获取要查询的字段信息" Category="Contains" />
+    <Link Source="创建查询信息" Target="通过类似SQL的查询语句描述查询信息" Category="Contains" />
+    <Link Source="数据库驱动程序通过SelectInfo和Edm双重信息，分析出SQL" Target="SQL" Bounds="394.595735972384,274.166029464068,95.2375973609491,5.36833945091979" />
+    <Link Source="通过检索Clr对象的属性清单，获取要查询的字段信息" Target="ClrObject" Bounds="491.765014648438,80.4800033569336,0,21" />
+    <Link Source="通过类似SQL的查询语句描述查询信息" Target="OSQL" Bounds="263.292510986328,72.8600006103516,98.7239685058594,37.1604080200195" />
+    <Link Source="通过类似SQL的查询语句描述查询信息" Target="SQL" Bounds="237.093881489987,72.8599940490723,109.362490910753,188.31721078306" />
+  </Links>
+  <Categories>
+    <Category Id="Comment" Label="注释" Description="表示在图表中用户定义的注释" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="注释" />
+    <Category Id="Contains" Label="包含" Description="链接的源是否包含目标对象" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="包含者" IsContainment="True" OutgoingActionLabel="包含" />
+  </Categories>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="Group" Label="组" Description="将节点显示为组" DataType="Microsoft.VisualStudio.GraphModel.GraphGroupStyle" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
+    <Property Id="Label" Label="标签" Description="可批注对象的可显示标签" DataType="System.String" />
+    <Property Id="Layout" DataType="System.String" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="UseManualLocation" DataType="System.Boolean" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+    <Property Id="ZoomLevel" DataType="System.String" />
+  </Properties>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="注释" ValueLabel="包含注释">
+      <Condition Expression="HasCategory('Comment')" />
+      <Setter Property="Background" Value="#FFFFFACD" />
+      <Setter Property="Stroke" Value="#FFE5C365" />
+      <Setter Property="StrokeThickness" Value="1" />
+      <Setter Property="NodeRadius" Value="2" />
+      <Setter Property="MaxWidth" Value="250" />
+    </Style>
+  </Styles>
+</DirectedGraph>

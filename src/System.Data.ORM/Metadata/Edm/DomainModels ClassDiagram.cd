@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="System.Data.Metadata.Edm.EdmProperty" Collapsed="true">
+    <Position X="12" Y="3.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAEAAAAAAAAACCAAAAAA=</HashCode>
+      <FileName>Metadata\Edm\DomainProperty.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Data.Metadata.Edm.MetadataItem" Collapsed="true">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAIAEAAAAAAYAAAAAIAAAAAAAAAAACAA=</HashCode>
+      <FileName>Metadata\Edm\MetadataItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Data.Metadata.Edm.EntityType">
+    <Position X="0.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Metadata\Edm\EntityType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Data.Metadata.Edm.EntityTypeBase" Collapsed="true">
+    <Position X="1.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Metadata\Edm\EntityTypeBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Data.Metadata.Edm.StructuralType" Collapsed="true">
+    <Position X="1.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Metadata\Edm\StructuralType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Data.Metadata.Edm.EdmType" Collapsed="true">
+    <Position X="3.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Metadata\Edm\EdmType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Data.Metadata.Edm.GlobalItem" Collapsed="true">
+    <Position X="3.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Metadata\Edm\GlobalItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Data.Metadata.Edm.EdmMember" Collapsed="true">
+    <Position X="10.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Metadata\Edm\EdmMember.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Data.Metadata.Edm.PrimitiveType" Collapsed="true">
+    <Position X="5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Metadata\Edm\PrimitiveType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Data.Metadata.Edm.SimpleType" Collapsed="true">
+    <Position X="6" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Metadata\Edm\SimpleType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Data.Metadata.Edm.EnumType" Collapsed="true">
+    <Position X="7.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Metadata\Edm\EnumType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Data.Metadata.Edm.NavigationProperty" Collapsed="true">
+    <Position X="9.5" Y="3.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Metadata\Edm\NavigationProperty.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Data.Metadata.Edm.RelationshipType" Collapsed="true">
+    <Position X="2.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Metadata\Edm\RelationshipType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Data.Metadata.Edm.AssociationType" Collapsed="true">
+    <Position X="2.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Metadata\Edm\AssociationType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

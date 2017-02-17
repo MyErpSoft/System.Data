@@ -39,17 +39,62 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Drivers\AutoSelectSqlBuilder.cs" />
+    <Compile Include="Drivers\BasicAutoSqlBuilder.cs" />
     <Compile Include="EntityReader.cs" />
-    <Compile Include="Metadata\Database\IField.cs" />
-    <Compile Include="Metadata\Database\ITable.cs" />
+    <Compile Include="LockFreeStack.cs" />
+    <Compile Include="Metadata\Database\DatabaseMetadataContainer.cs" />
+    <Compile Include="Metadata\Database\MemberMetadata.cs" />
+    <Compile Include="Metadata\Database\ModelBuilders\EndMember.cs" />
+    <Compile Include="Metadata\Database\ModelBuilders\Field.cs" />
+    <Compile Include="Metadata\Database\ModelBuilders\FieldCollection.cs" />
+    <Compile Include="Metadata\Database\IDatabaseMetadataBinder.cs" />
+    <Compile Include="Metadata\Database\EndMember.cs" />
+    <Compile Include="Metadata\Database\Field.cs" />
+    <Compile Include="Metadata\Database\Relationship.cs" />
+    <Compile Include="Metadata\Database\Table.cs" />
+    <Compile Include="Metadata\Database\ModelBuilders\Relationship.cs" />
+    <Compile Include="Metadata\Database\ModelBuilders\RelationshipCollection.cs" />
+    <Compile Include="Metadata\Database\ModelBuilders\Table.cs" />
+    <Compile Include="Metadata\Edm\AssociationType.cs" />
+    <Compile Include="Metadata\Edm\DomainPropertyKind.cs" />
+    <Compile Include="Metadata\Edm\EdmMember.cs" />
+    <Compile Include="Metadata\Edm\EdmProperty.cs" />
+    <Compile Include="Metadata\Edm\EdmPropertyCollection.cs" />
+    <Compile Include="Metadata\Edm\EdmType.cs" />
+    <Compile Include="Metadata\Edm\EntityType.cs" />
+    <Compile Include="Metadata\Edm\EntityTypeBase.cs" />
+    <Compile Include="Metadata\Edm\EnumType.cs" />
+    <Compile Include="Metadata\Edm\GlobalItem.cs" />
+    <Compile Include="Metadata\Edm\MetadataItem.cs" />
+    <Compile Include="Metadata\Edm\MetadataName.cs" />
+    <Compile Include="Metadata\Edm\NavigationProperty.cs" />
+    <Compile Include="Metadata\Edm\NavigationPropertyCollection.cs" />
+    <Compile Include="Metadata\Edm\PrimitiveType.cs" />
+    <Compile Include="Metadata\Edm\RelationshipType.cs" />
+    <Compile Include="Metadata\Edm\SimpleType.cs" />
+    <Compile Include="Metadata\Edm\StructuralType.cs" />
     <Compile Include="Metadata\Mapping\EntitySelector.cs" />
     <Compile Include="Metadata\Mapping\PropertyFieldPair.cs" />
+    <Compile Include="Metadata\MetadataResolveEventArgs.cs" />
+    <Compile Include="Metadata\ObjectReference.cs" />
+    <Compile Include="Metadata\PropertyPath.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\AutoSelectInfo.cs" />
+    <Compile Include="Query\FieldNode.cs" />
+    <Compile Include="Query\TableNode.cs" />
+    <Compile Include="Query\SQLContext.cs" />
+    <Compile Include="Query\BasicAutoSqlInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="EntityReader.dgml" />
+    <None Include="Metadata\Edm\DomainModels ClassDiagram.cd" />
+    <None Include="Metadata\Edm\Edm.dgml" />
+    <None Include="Query\Query.dgml" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\System.Data.DataEntities\System.Data.DataEntities.csproj">
-      <Project>{e08635b9-dad0-43ea-9970-702eeb7b0190}</Project>
+      <Project>{E08635B9-DAD0-43EA-9970-702EEB7B0190}</Project>
       <Name>System.Data.DataEntities</Name>
     </ProjectReference>
   </ItemGroup>

@@ -61,6 +61,33 @@ namespace System.Data.Properties {
         }
         
         /// <summary>
+        ///   查找类似 设定关系的关联关系时，不能一侧（From或To）同时设置Field和Constant 的本地化字符串。
+        /// </summary>
+        internal static string EndMemberError1 {
+            get {
+                return ResourceManager.GetString("EndMemberError1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 设定关系的关联关系时，不能两侧（From和To）同时设置为常量。 的本地化字符串。
+        /// </summary>
+        internal static string EndMemberError2 {
+            get {
+                return ResourceManager.GetString("EndMemberError2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 关系 {0}.{1} 描述的关联字段 {2} 无效 的本地化字符串。
+        /// </summary>
+        internal static string EndMemberFieldError {
+            get {
+                return ResourceManager.GetString("EndMemberFieldError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 提供的名称 {0} 不正确，不能为空，且只能是字母、数字（不能是第一个字符）或下划线，最多256个字符。 的本地化字符串。
         /// </summary>
         internal static string ErrorName {
@@ -79,6 +106,15 @@ namespace System.Data.Properties {
         }
         
         /// <summary>
+        ///   查找类似 元素 {0} 已经被添加到集合中，不能重复添加。 的本地化字符串。
+        /// </summary>
+        internal static string ItemExistedCollection {
+            get {
+                return ResourceManager.GetString("ItemExistedCollection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 类型 {0} 已经包含成员 {1}，不能添加重名的成员。 的本地化字符串。
         /// </summary>
         internal static string KeyIsExisted {
@@ -88,7 +124,7 @@ namespace System.Data.Properties {
         }
         
         /// <summary>
-        ///   查找类似 类型 {0} 未能找到成员 {1}，或成员不符合需要的类型。 的本地化字符串。
+        ///   查找类似 在 {0} 中没有找到成员 {1}，或成员不符合需要的类型。 的本地化字符串。
         /// </summary>
         internal static string KeyNotFoundException {
             get {
@@ -102,6 +138,24 @@ namespace System.Data.Properties {
         internal static string ObjectIsFrozen {
             get {
                 return ResourceManager.GetString("ObjectIsFrozen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 未能找到名称为 {0} 的表。 的本地化字符串。
+        /// </summary>
+        internal static string TableNotFoundException {
+            get {
+                return ResourceManager.GetString("TableNotFoundException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 关系 {0}.{1} 指向的表 {2} 无效。 的本地化字符串。
+        /// </summary>
+        internal static string ToNameError {
+            get {
+                return ResourceManager.GetString("ToNameError", resourceCulture);
             }
         }
     }

@@ -181,7 +181,7 @@ namespace System.Data.Metadata.DataEntities.Clr {
             public PropertyCollection() :base(null){
             }
 
-            protected override string GetName(IEntityProperty item) {
+            protected override string GetKeyForItem(IEntityProperty item) {
                 return item.Name;
             }
         }

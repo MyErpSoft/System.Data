@@ -111,7 +111,7 @@ namespace System.Data.Metadata.DataEntities.Dynamic {
         #region Properties Field
         private sealed class MemberCollection : MetadataReadOnlyCollection<DynamicMemberMetadata> {
             public MemberCollection() : base(null) { }
-            protected override string GetName(DynamicMemberMetadata item) {
+            protected override string GetKeyForItem(DynamicMemberMetadata item) {
                 return item.Name;
             }
         }

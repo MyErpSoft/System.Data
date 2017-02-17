@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -51,14 +52,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AutoSelectSqlBuilderTest.cs" />
+    <Compile Include="DatabaseMetadataContainerTest.cs" />
     <Compile Include="EntityReaderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestClasses.cs" />
+    <Compile Include="TestEnv.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\System.Data.DataEntities\System.Data.DataEntities.csproj">
-      <Project>{e08635b9-dad0-43ea-9970-702eeb7b0190}</Project>
-      <Name>System.Data.DataEntities</Name>
-    </ProjectReference>
     <ProjectReference Include="..\System.Data.ORM\System.Data.ORM.csproj">
       <Project>{66a30470-638a-41fe-b124-ce4842247c8c}</Project>
       <Name>System.Data.ORM</Name>

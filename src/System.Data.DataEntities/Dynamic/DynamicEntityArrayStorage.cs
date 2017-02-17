@@ -22,12 +22,7 @@ namespace System.Data.DataEntities.Dynamic {
         public object GetValue(DynamicEntityField field) {
             int ordinal = field.Ordinal;
             //但数组不够用时，GetValue特殊处理了，这里没有必要扩充空间，因为没有写操作
-            if (ordinal < _values.Length) {
-                return this._values[ordinal];
-            }
-            else {
-                return null;
-            }
+            return (ordinal < _values.Length) ? this._values[ordinal] : null;
         }
 
         public void SetValue(DynamicEntityField field, object value) {

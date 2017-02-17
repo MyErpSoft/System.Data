@@ -45,6 +45,8 @@
     <Compile Include="Dynamic\DynamicEntityArrayStorage.cs" />
     <Compile Include="Dynamic\DynamicEntityDictStorage.cs" />
     <Compile Include="Dynamic\IDynamicEntityStorage.cs" />
+    <Compile Include="LockFreeStack.cs" />
+    <Compile Include="Metadata\DataEntities\BuiltInTypes.cs" />
     <Compile Include="Metadata\DataEntities\Clr\ClrHelper.cs" />
     <Compile Include="Metadata\DataEntities\Clr\EntityProperty.cs" />
     <Compile Include="Metadata\DataEntities\Clr\EntityType.cs" />
@@ -81,8 +83,10 @@
     <Compile Include="Metadata\Edm\StructuralType.cs" />
     <Compile Include="Metadata\IMemberMetadata.cs" />
     <Compile Include="Metadata\DataEntities\IValueAccessor.cs" />
+    <Compile Include="Metadata\MetadataCollection.cs" />
     <Compile Include="Metadata\MetadataExtensions.cs" />
     <Compile Include="Metadata\MetadataReadOnlyCollection.cs" />
+    <Compile Include="Metadata\ReadOnlyKeyedCollection.cs" />
     <Compile Include="OrmUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
