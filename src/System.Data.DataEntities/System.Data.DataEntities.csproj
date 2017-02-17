@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Metadata\Edm\AssociationType.cs" />
+    <Compile Include="Metadata\Edm\EdmProperty.cs" />
     <Compile Include="Dynamic\DynamicEntity.cs" />
     <Compile Include="Dynamic\DynamicEntityArrayStorage.cs" />
     <Compile Include="Dynamic\DynamicEntityDictStorage.cs" />
@@ -61,6 +63,22 @@
     <Compile Include="Metadata\DataEntities\Dynamic\DynamicMemberMetadata.cs" />
     <Compile Include="Metadata\DataEntities\IEntityProperty.cs" />
     <Compile Include="Metadata\DataEntities\IEntityType.cs" />
+    <Compile Include="Metadata\Edm\EdmMember.cs" />
+    <Compile Include="Metadata\Edm\EdmType.cs" />
+    <Compile Include="Metadata\Edm\EntityTypeBase.cs" />
+    <Compile Include="Metadata\Edm\EnumType.cs" />
+    <Compile Include="Metadata\Edm\GlobalItem.cs" />
+    <Compile Include="Metadata\Edm\MetadataItem.cs" />
+    <Compile Include="Metadata\Edm\EdmPropertyCollection.cs" />
+    <Compile Include="Metadata\Edm\DomainPropertyKind.cs" />
+    <Compile Include="Metadata\Edm\EntityType.cs" />
+    <Compile Include="Metadata\Edm\MetadataName.cs" />
+    <Compile Include="Metadata\Edm\NavigationProperty.cs" />
+    <Compile Include="Metadata\Edm\NavigationPropertyCollection.cs" />
+    <Compile Include="Metadata\Edm\PrimitiveType.cs" />
+    <Compile Include="Metadata\Edm\RelationshipType.cs" />
+    <Compile Include="Metadata\Edm\SimpleType.cs" />
+    <Compile Include="Metadata\Edm\StructuralType.cs" />
     <Compile Include="Metadata\IMemberMetadata.cs" />
     <Compile Include="Metadata\DataEntities\IValueAccessor.cs" />
     <Compile Include="Metadata\MetadataExtensions.cs" />
@@ -81,6 +99,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Metadata\Edm\DomainModels ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

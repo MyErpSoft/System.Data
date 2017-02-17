@@ -1,5 +1,4 @@
-﻿using System.Data.Metadata.Database;
-using System.Data.Metadata.DataEntities;
+﻿using System.Data.Metadata.DataEntities;
 using System.Diagnostics.Contracts;
 
 namespace System.Data.Metadata.Mapping {
